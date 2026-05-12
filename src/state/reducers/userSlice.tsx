@@ -4,63 +4,38 @@ export interface User {
   id: string;
   email: string;
   username: string;
-  password: string; // Keep in mind: storing raw passwords in state is usually risky!
+  password: string; 
 }
 
-interface AuthState{
-    user: User | null;     // null if not logged in
-    token: string | null;  // for API calls
-    isAuthenticated: boolean;
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: string | null;
-}
-
-const initUserState: User[] = [
+const initialState: User[] = [
   {
     id: "12345",
-    email:"dhruv@gmail.com",
-    username:"pokka",
-    password:"Police223"
+    email: "dhruv@gmail.com",
+    username: "pokka",
+    password: "Police223"
   },
 ];
 
-const initAuthState: AuthState{}={
-    user: null,    // null if not logged in
-    token: null,  // for API calls
-    isAuthenticated: false,
-    status: 'idle',
-    error: null,
-}
-
 const userSlice = createSlice({
-  name: "users", // Must be a string
-  initUserState,
+  name: "users",
+  initialState,
   reducers: {
     addUser: {
-      // Use PayloadAction<User> to type the action
+      // The reducer handles updating the state array
       reducer(state, action: PayloadAction<User>) {
         state.push(action.payload);
       },
-      // The prepare callback must return an object with a 'payload' key
+      // The prepare callback handles the logic of creating the object
       prepare(email: string, username: string, password: string) {
         return {
-            //have to fix the syntax for typescript
-          payload: User= {
-            id: nanoid(), // nanoid is a function, so call it: nanoid()
+          payload: {
+            id: nanoid(), // Generates a unique ID
             email,
             username,
             password,
-          },
+          } as User, // "as User" ensures the payload matches your interface
         };
       },
-    },
-    signIn:{
-        reducer(state,action:PayloadAction<User>)=>{
-            if(state.user = action.payload){
-
-            }
-
-        }
     },
   },
 });

@@ -9,7 +9,7 @@ interface AuthState{
     error: string | null;
 }
 
-const initialState: AuthState{}={
+const initialState: AuthState={
     user: null,    // null if not logged in
     token: null,  // for API calls
     isAuthenticated: false,
@@ -17,10 +17,45 @@ const initialState: AuthState{}={
     error: null,
 }
 
-const authslice= createSlice({
+const authSlice= createSlice({
     name: 'auth',
     initialState,
-    reducers:{
-        
+    reducers: {
+        loginStart: (state) => {
+          state.status = 'loading';
+        },
+        loginSuccess: (state, action: PayloadAction<User>) => {
+          state.user = action.payload;
+          state.isAuthenticated = true;
+          state.token = nanoid(); // Generate token on success
+          state.status = 'succeeded';
+          state.error = null;
+        },
+        loginFailure: (state, action: PayloadAction<string>) => {
+          state.status = 'failed';
+          state.error = action.payload;
+        }
+      }
+    });
+
+// 3. Export the actions
+export const { loginSuccess, loginFailure } = authSlice.actions;
+
+// 4. THE THUNK (Located outside, at the bottom or before the slice)
+// This is the function you will call from your React Component
+export const performLogin = (credentials: {email: string, password: string}) => (dispatch: any, getState: any) => {
+    // Access the 'users' slice state
+    const allUsers = getState().users; 
+    
+    const foundUser = allUsers.find(
+        (u: User) => u.email === credentials.email && u.password === credentials.password
+    );
+
+    if (foundUser) {
+        dispatch(loginSuccess(foundUser));
+    } else {
+        dispatch(loginFailure("Invalid email or password"));
     }
-})
+};
+
+export default authSlice.reducer;
