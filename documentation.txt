@@ -1,0 +1,23 @@
+2. Why create a certain slice? (The "Should I?" Test)
+You shouldn't put everything in Redux. If you do, your app will become slow and over-engineered. 
+Ask yourself these three questions to decide if data belongs in a Redux slice:
+
+A. Is it "Global"?
+Does more than one disconnected part of the app need this info?
+
+Yes: User Authentication, Theme (Dark/Light mode), Shopping Cart. (Put in Redux).
+
+No: A "Read More" toggle on a single blog post. (Keep in local useState).
+
+B. Does the data need to persist?
+If the user navigates from the Home page to the Profile page and back, should the data still be there?
+
+Yes: Search results or a partially filled form. (Put in Redux).
+
+No: The specific text currently being typed into a search bar. (Keep in local useState).
+
+C. Is it "Server Cache"?
+Are you just storing data you fetched from an API?
+
+Yes: Use a slice (or better yet, RTK Query) to cache that data so you don't have to re-fetch it every 
+time the component re-renders.
