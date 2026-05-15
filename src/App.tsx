@@ -4,18 +4,25 @@ import SignInForm from './components/signInForm';
 import Dashboard from './components/dashboard';
 import './App.css'
 import Registerform from './components/registerform.tsx'
+import { useState } from "react";
+
 const App: React.FC = () => {
-  // Watch the auth state
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const [isSignIn, setIsSignIn] = useState(true);
 
   return (
+    <>
+      {isSignIn ? (
+        <SignInForm />
+      ) : (
+        <Registerform />
+      )}
 
-      <main>
-            <Registerform/>
-        
-      </main>
+      <button onClick={() => setIsSignIn(!isSignIn)}>
+        {isSignIn ? "Don't have an account? Register" : "Already have an account? Sign In"}
+      </button>
+    </>
   );
-};
+}
 
 export default App;
-

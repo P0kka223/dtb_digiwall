@@ -36,7 +36,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     [name]: value,
   }));
 };
-//stops the page from refreshing
+//stops the whole page from refreshing
 const handleSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
     console.log("handled successfully", formData)
