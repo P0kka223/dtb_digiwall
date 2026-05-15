@@ -1,36 +1,55 @@
 /* ============================================================
-   DigiWall — Global Stylesheet
-   Theme: Refined Dark-Tech / Geometric Brutalist
+   DigiWall â€” Global Stylesheet
+   Theme: Diamond Trust Bank Kenya (DTB)
+   Brand Colors: Crimson Red #C8102E Â· Deep Navy #003087
+   Fonts: Libre Baskerville (headings) Â· Source Sans 3 (body)
    ============================================================ */
 
-/* ── 1. Design Tokens ──────────────────────────────────────── */
+/* Google Fonts â€” DTB-aligned typography */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+/* â”€â”€ 1. Design Tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
-  /* Colors */
-  --bg:           #0d0e14;
-  --surface:      #13141c;
-  --surface-2:    #1a1c27;
-  --border:       #252734;
-  --border-light: #2e3044;
+  /* â”€â”€ DTB Brand Colors â”€â”€ */
+  --dtb-red:        #C8102E;
+  --dtb-red-dark:   #a50d25;
+  --dtb-red-light:  #e8192e;
+  --dtb-navy:       #003087;
+  --dtb-navy-dark:  #001f5b;
+  --dtb-navy-light: #1a4aaa;
+  --dtb-gold:       #B8962E;
+  --dtb-white:      #ffffff;
 
-  --text:         #8b8fa8;
-  --text-h:       #e8eaf2;
-  --text-muted:   #555870;
+  /* â”€â”€ Surfaces â”€â”€ */
+  --bg:           #f5f6f9;
+  --surface:      #ffffff;
+  --surface-2:    #eef0f7;
+  --surface-3:    #e4e7f2;
+  --border:       #d0d5e8;
+  --border-light: #bbc3da;
 
-  --accent:       #5b6af0;
-  --accent-2:     #8b5cf6;
-  --accent-glow:  rgba(91, 106, 240, 0.25);
-  --accent-subtle:rgba(91, 106, 240, 0.08);
+  /* â”€â”€ Text â”€â”€ */
+  --text:         #4a5068;
+  --text-h:       #0d1b3e;
+  --text-muted:   #8890a8;
 
-  --success:      #22c55e;
-  --error:        #f43f5e;
-  --warning:      #f59e0b;
+  /* â”€â”€ Accents â”€â”€ */
+  --accent:        var(--dtb-red);
+  --accent-dark:   var(--dtb-red-dark);
+  --accent-glow:   rgba(200,16,46,0.15);
+  --accent-subtle: rgba(200,16,46,0.06);
 
-  /* Typography */
-  --font-display: 'DM Serif Display', 'Georgia', serif;
-  --font-body:    'DM Mono', 'Courier New', monospace;
-  --font-ui:      'Syne', 'Futura', sans-serif;
+  --success:  #1a8a4a;
+  --error:    #C8102E;
+  --warning:  #c47b00;
 
-  /* Spacing scale */
+  /* â”€â”€ Typography â”€â”€ */
+  --font-display: 'Libre Baskerville', 'Georgia', 'Times New Roman', serif;
+  --font-body:    'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  --font-ui:      'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  --font-mono:    'Courier New', Courier, monospace;
+
+  /* â”€â”€ Spacing â”€â”€ */
   --space-1:  4px;
   --space-2:  8px;
   --space-3:  12px;
@@ -42,28 +61,28 @@
   --space-12: 48px;
   --space-16: 64px;
 
-  /* Radius */
-  --radius-sm:  4px;
-  --radius-md:  8px;
-  --radius-lg:  16px;
-  --radius-xl:  24px;
+  /* â”€â”€ Radius â”€â”€ */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
   --radius-pill: 9999px;
 
-  /* Shadows */
-  --shadow-sm:   0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-md:   0 4px 16px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
-  --shadow-lg:   0 16px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4);
-  --shadow-glow: 0 0 32px var(--accent-glow), 0 0 8px var(--accent-glow);
+  /* â”€â”€ Shadows â”€â”€ */
+  --shadow-sm:  0 1px 3px rgba(0,48,135,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 16px rgba(0,48,135,0.10), 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-lg:  0 12px 40px rgba(0,48,135,0.14), 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-red: 0 4px 20px rgba(200,16,46,0.28);
 
-  /* Transitions */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* â”€â”€ Transitions â”€â”€ */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --duration-fast:   150ms;
-  --duration-base:   250ms;
-  --duration-slow:   400ms;
+  --dur-fast:    150ms;
+  --dur-base:    250ms;
+  --dur-slow:    400ms;
 }
 
-/* ── 2. Reset & Base ───────────────────────────────────────── */
+/* â”€â”€ 2. Reset & Base â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -77,7 +96,7 @@ html {
 
 body {
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.6;
   color: var(--text);
   background-color: var(--bg);
@@ -85,14 +104,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Subtle grid texture */
+  /* Subtle diamond tile â€” nod to "Diamond" in DTB */
   background-image:
-    linear-gradient(rgba(91,106,240,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(91,106,240,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(135deg, rgba(0,48,135,0.03) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(0,48,135,0.03) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(0,48,135,0.03) 25%, transparent 25%),
+    linear-gradient(45deg,  rgba(0,48,135,0.03) 25%, transparent 25%);
+  background-size: 20px 20px;
 }
 
-/* ── 3. Root Container ─────────────────────────────────────── */
+/* â”€â”€ 3. Root Container â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 #root {
   width: 100%;
   max-width: 1200px;
@@ -102,19 +123,26 @@ body {
   flex-direction: column;
 }
 
-/* ── 4. Typography ─────────────────────────────────────────── */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-ui);
+/* â”€â”€ 4. Typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+h1, h2 {
+  font-family: var(--font-display);
   font-weight: 700;
-  color: var(--text-h);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  color: var(--dtb-navy);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
-h1 { font-size: clamp(28px, 5vw, 48px); }
-h2 { font-size: clamp(20px, 3.5vw, 32px); }
-h3 { font-size: clamp(16px, 2.5vw, 22px); font-weight: 600; }
-h4 { font-size: 16px; font-weight: 600; }
+h3, h4, h5, h6 {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  color: var(--text-h);
+  line-height: 1.3;
+}
+
+h1 { font-size: clamp(26px, 4.5vw, 44px); }
+h2 { font-size: clamp(20px, 3vw, 30px); }
+h3 { font-size: clamp(16px, 2.2vw, 20px); }
+h4 { font-size: 16px; }
 
 p {
   color: var(--text);
@@ -122,17 +150,17 @@ p {
 }
 
 a {
-  color: var(--accent);
+  color: var(--dtb-navy);
   text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-out);
+  transition: color var(--dur-fast) var(--ease-out);
 }
-a:hover { color: var(--text-h); }
+a:hover { color: var(--dtb-red); }
 
 code {
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
   font-size: 0.875em;
   background: var(--surface-2);
-  color: var(--accent);
+  color: var(--dtb-navy);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
@@ -140,7 +168,7 @@ code {
 
 ul, ol { list-style: none; }
 
-/* ── 5. Sign In Layout ─────────────────────────────────────── */
+/* â”€â”€ 5. Page Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 main {
   flex: 1;
   display: flex;
@@ -150,62 +178,56 @@ main {
   position: relative;
 }
 
-/* Ambient glow behind the card */
 main::before {
   content: '';
   position: fixed;
-  top: 20%;
-  left: 50%;
+  top: 10%; left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 400px;
-  background: radial-gradient(ellipse at center,
-    rgba(91,106,240,0.12) 0%,
-    rgba(139,92,246,0.06) 50%,
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse at 50% 40%,
+    rgba(0,48,135,0.07) 0%,
+    rgba(200,16,46,0.03) 55%,
     transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── 6. Sign In Form ───────────────────────────────────────── */
+/* â”€â”€ 6. Sign-In Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 section {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   padding: var(--space-10) var(--space-8);
   box-shadow: var(--shadow-lg);
-
-  /* Entrance animation */
   animation: slideUp 0.5s var(--ease-out) both;
 }
 
-/* Top accent bar */
+/* DTB gradient top bar: red â†’ navy */
 section::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: var(--space-8);
-  right: var(--space-8);
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    var(--accent) 30%,
-    var(--accent-2) 70%,
-    transparent 100%);
-  border-radius: var(--radius-pill);
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--dtb-red) 0%,
+    var(--dtb-red-light) 35%,
+    var(--dtb-navy-light) 65%,
+    var(--dtb-navy) 100%
+  );
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 section h2 {
-  font-size: 28px;
+  font-size: 26px;
   margin-bottom: var(--space-2);
-  color: var(--text-h);
+  color: var(--dtb-navy);
 }
 
-/* Subtitle under h2 if added */
 section > p {
   font-size: 13px;
   color: var(--text-muted);
@@ -213,7 +235,7 @@ section > p {
   letter-spacing: 0.02em;
 }
 
-/* ── 7. Form Elements ──────────────────────────────────────── */
+/* â”€â”€ 7. Form Fields â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 form {
   display: flex;
   flex-direction: column;
@@ -231,14 +253,14 @@ label {
   font-family: var(--font-ui);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--text-muted);
-  transition: color var(--duration-fast) var(--ease-out);
+  transition: color var(--dur-fast) var(--ease-out);
 }
 
 form > div:focus-within label {
-  color: var(--accent);
+  color: var(--dtb-navy);
 }
 
 input[type="email"],
@@ -247,47 +269,47 @@ input[type="text"] {
   width: 100%;
   padding: var(--space-3) var(--space-4);
   background: var(--surface-2);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--text-h);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
   outline: none;
   transition:
-    border-color var(--duration-base) var(--ease-out),
-    box-shadow var(--duration-base) var(--ease-out),
-    background var(--duration-fast) var(--ease-out);
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
   appearance: none;
   -webkit-appearance: none;
 }
 
 input::placeholder {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 input:hover {
-  border-color: var(--border-light);
-  background: #1e2030;
+  border-color: var(--dtb-navy-light);
+  background: #eef1fa;
 }
 
 input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-  background: #1c1e2e;
+  border-color: var(--dtb-navy);
+  box-shadow: 0 0 0 3px rgba(0,48,135,0.12);
+  background: #f4f6fc;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--surface-2) inset;
+  -webkit-box-shadow: 0 0 0 1000px #f4f6fc inset;
   -webkit-text-fill-color: var(--text-h);
   caret-color: var(--text-h);
-  border-color: var(--accent);
+  border-color: var(--dtb-navy);
 }
 
-/* ── 8. Buttons ────────────────────────────────────────────── */
+/* â”€â”€ 8. Buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 button {
   display: inline-flex;
   align-items: center;
@@ -296,36 +318,36 @@ button {
   font-family: var(--font-ui);
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   cursor: pointer;
   border: none;
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-6);
   transition:
-    background var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-base) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out),
-    opacity var(--duration-fast) var(--ease-out);
+    background var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
   outline: none;
   position: relative;
   overflow: hidden;
 }
 
-/* Primary CTA */
+/* Primary â€” DTB Red */
 button[type="button"],
 button[type="submit"] {
   width: 100%;
   padding: var(--space-4) var(--space-6);
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  background: var(--dtb-red);
   color: #fff;
   font-size: 14px;
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 20px rgba(91,106,240,0.35);
+  box-shadow: var(--shadow-red);
   margin-top: var(--space-3);
 }
 
-/* Shimmer sweep on hover */
+/* Shimmer */
 button[type="button"]::after,
 button[type="submit"]::after {
   content: '';
@@ -334,7 +356,7 @@ button[type="submit"]::after {
   background: linear-gradient(
     105deg,
     transparent 40%,
-    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.15) 50%,
     transparent 60%
   );
   transform: translateX(-100%);
@@ -348,14 +370,15 @@ button[type="submit"]:hover::after {
 
 button[type="button"]:hover,
 button[type="submit"]:hover {
-  box-shadow: 0 6px 28px rgba(91,106,240,0.5);
+  background: var(--dtb-red-dark);
+  box-shadow: 0 6px 28px rgba(200,16,46,0.38);
   transform: translateY(-1px);
 }
 
 button[type="button"]:active,
 button[type="submit"]:active {
   transform: translateY(0);
-  box-shadow: 0 2px 10px rgba(91,106,240,0.3);
+  box-shadow: 0 2px 10px rgba(200,16,46,0.20);
 }
 
 button:disabled {
@@ -366,32 +389,51 @@ button:disabled {
   transform: none;
 }
 
-/* Focus ring for accessibility */
 button:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--dtb-red);
   outline-offset: 3px;
 }
 
-/* ── 9. Dashboard ──────────────────────────────────────────── */
-.dashboard-wrapper,
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--dtb-navy);
+  color: var(--dtb-navy);
+  padding: var(--space-3) var(--space-5);
+}
+.btn-outline:hover {
+  background: var(--dtb-navy);
+  color: #fff;
+}
+
+/* â”€â”€ 9. Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 section:has(h1) {
   width: 100%;
   max-width: 860px;
-  margin: 0 auto;
+  margin: var(--space-8) auto;
+  padding: var(--space-10) var(--space-8);
+  border-radius: var(--radius-xl);
 }
 
-/* Dashboard heading */
 section h1 {
-  font-size: clamp(24px, 4vw, 42px);
-  background: linear-gradient(120deg, var(--text-h) 40%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: clamp(24px, 4vw, 40px);
+  color: var(--dtb-navy);
   margin-bottom: var(--space-2);
+  display: inline-block;
+  position: relative;
   animation: slideUp 0.4s var(--ease-out) both;
 }
 
-/* Dashboard intro text */
+/* Red underline rule under dashboard title */
+section h1::after {
+  content: '';
+  display: block;
+  width: 52px;
+  height: 3px;
+  background: var(--dtb-red);
+  border-radius: var(--radius-pill);
+  margin-top: var(--space-2);
+}
+
 section > p {
   font-size: 15px;
   color: var(--text);
@@ -403,6 +445,7 @@ section > p {
 section > div {
   background: var(--surface-2);
   border: 1px solid var(--border);
+  border-left: 4px solid var(--dtb-red);
   border-radius: var(--radius-lg);
   padding: var(--space-6) var(--space-8);
   animation: slideUp 0.4s 0.16s var(--ease-out) both;
@@ -411,13 +454,13 @@ section > div {
 section > div h3 {
   font-size: 11px;
   font-family: var(--font-ui);
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: var(--space-5);
 }
 
-/* User detail list items */
 section > div ul {
   display: flex;
   flex-direction: column;
@@ -429,38 +472,40 @@ section > div ul li {
   align-items: center;
   gap: var(--space-3);
   font-size: 14px;
-  color: var(--text);
+  color: var(--text-h);
   padding: var(--space-3) var(--space-4);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  transition: border-color var(--duration-base) var(--ease-out);
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
 }
 
 section > div ul li:hover {
-  border-color: var(--border-light);
+  border-color: var(--dtb-navy-light);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Label part of "Key: Value" */
 section > div ul li::before {
-  content: '▸';
-  color: var(--accent);
+  content: 'â–¸';
+  color: var(--dtb-red);
   font-size: 10px;
   flex-shrink: 0;
 }
 
-/* ── 10. Counter (from App.css reference) ──────────────────── */
+/* â”€â”€ 10. Counter Widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .counter {
   font-family: var(--font-body);
   font-size: 14px;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
-  color: var(--accent);
-  background: var(--accent-subtle);
+  color: var(--dtb-navy);
+  background: rgba(0,48,135,0.06);
   border: 1px solid transparent;
   transition:
-    border-color var(--duration-base) var(--ease-out),
-    box-shadow var(--duration-base) var(--ease-out);
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
   margin-bottom: var(--space-6);
   letter-spacing: 0.02em;
   display: inline-flex;
@@ -468,33 +513,31 @@ section > div ul li::before {
 }
 
 .counter:hover {
-  border-color: rgba(91,106,240,0.4);
-  box-shadow: 0 0 12px var(--accent-glow);
+  border-color: rgba(0,48,135,0.25);
+  box-shadow: 0 0 12px rgba(0,48,135,0.12);
 }
 
 .counter:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--dtb-navy);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
-/* ── 11. Utility Classes ───────────────────────────────────── */
+/* â”€â”€ 11. Utility Classes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
   clip: rect(0,0,0,0);
   white-space: nowrap;
   border-width: 0;
 }
 
-.text-muted  { color: var(--text-muted); }
-.text-accent { color: var(--accent); }
-.text-error  { color: var(--error); }
+.text-muted   { color: var(--text-muted); }
+.text-primary { color: var(--dtb-red); }
+.text-navy    { color: var(--dtb-navy); }
 .text-success { color: var(--success); }
+.text-error   { color: var(--error); }
 
 .badge {
   display: inline-flex;
@@ -506,9 +549,18 @@ section > div ul li::before {
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: var(--accent-subtle);
-  color: var(--accent);
-  border: 1px solid rgba(91,106,240,0.2);
+}
+
+.badge--red {
+  background: rgba(200,16,46,0.08);
+  color: var(--dtb-red);
+  border: 1px solid rgba(200,16,46,0.2);
+}
+
+.badge--navy {
+  background: rgba(0,48,135,0.08);
+  color: var(--dtb-navy);
+  border: 1px solid rgba(0,48,135,0.2);
 }
 
 .divider {
@@ -517,18 +569,17 @@ section > div ul li::before {
   margin: var(--space-6) 0;
 }
 
-/* ── 12. Loading / Spinner ─────────────────────────────────── */
+/* â”€â”€ 12. Spinner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .spinner {
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255,255,255,0.2);
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.25);
   border-top-color: #fff;
   border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+  animation: spin 0.65s linear infinite;
 }
 
-/* ── 13. Alert / Error Banner ──────────────────────────────── */
+/* â”€â”€ 13. Alert Banners â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .alert {
   display: flex;
   align-items: flex-start;
@@ -541,18 +592,52 @@ section > div ul li::before {
 }
 
 .alert--error {
-  background: rgba(244,63,94,0.08);
-  border-color: rgba(244,63,94,0.2);
-  color: #fda4af;
+  background: rgba(200,16,46,0.06);
+  border-color: rgba(200,16,46,0.20);
+  color: var(--dtb-red-dark);
 }
 
 .alert--success {
-  background: rgba(34,197,94,0.08);
-  border-color: rgba(34,197,94,0.2);
-  color: #86efac;
+  background: rgba(26,138,74,0.06);
+  border-color: rgba(26,138,74,0.20);
+  color: #116631;
 }
 
-/* ── 14. Scrollbar ─────────────────────────────────────────── */
+.alert--info {
+  background: rgba(0,48,135,0.05);
+  border-color: rgba(0,48,135,0.18);
+  color: var(--dtb-navy);
+}
+
+/* â”€â”€ 14. DTB Header Strip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.dtb-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-8);
+  background: var(--dtb-navy);
+  color: #fff;
+}
+
+.dtb-header__logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.dtb-header__logo span { color: var(--dtb-gold); }
+
+.dtb-tagline {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.04em;
+}
+
+/* â”€â”€ 15. Scrollbar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
@@ -561,16 +646,10 @@ section > div ul li::before {
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
 
-/* ── 15. Keyframes ─────────────────────────────────────────── */
+/* â”€â”€ 16. Keyframes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes spin {
@@ -582,76 +661,31 @@ section > div ul li::before {
   to   { opacity: 1; }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 12px var(--accent-glow); }
-  50%       { box-shadow: 0 0 24px var(--accent-glow), var(--shadow-glow); }
-}
-
-/* ── 16. Responsive ────────────────────────────────────────── */
+/* â”€â”€ 17. Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   section {
     padding: var(--space-8) var(--space-6);
     border-radius: var(--radius-lg);
   }
 
-  section > div {
-    padding: var(--space-5) var(--space-5);
-  }
-
-  form {
-    gap: var(--space-4);
-  }
+  section > div { padding: var(--space-5); }
+  form { gap: var(--space-4); }
+  .dtb-header { padding: var(--space-4); }
 }
 
 @media (max-width: 480px) {
   section {
     max-width: 100%;
     padding: var(--space-6) var(--space-4);
-    border-radius: var(--radius-md);
+    border-radius: 0;
     border-left: none;
     border-right: none;
-    border-radius: 0;
   }
 
   main {
     padding: 0;
     align-items: flex-start;
   }
-}
 
-/* ── 17. Light mode override (if user prefers) ─────────────── */
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg:           #f4f5fa;
-    --surface:      #ffffff;
-    --surface-2:    #f0f1f8;
-    --border:       #dde0ef;
-    --border-light: #c8ccdf;
-
-    --text:         #5a5e75;
-    --text-h:       #0f1120;
-    --text-muted:   #9297b0;
-
-    --accent:       #4655e8;
-    --accent-2:     #7c3aed;
-    --accent-glow:  rgba(70,85,232,0.15);
-    --accent-subtle:rgba(70,85,232,0.06);
-
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.06);
-    --shadow-lg: 0 16px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
-  }
-
-  body {
-    background-image:
-      linear-gradient(rgba(70,85,232,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(70,85,232,0.04) 1px, transparent 1px);
-  }
-
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px var(--surface-2) inset;
-    -webkit-text-fill-color: var(--text-h);
-  }
+  section h1::after { width: 36px; }
 }
