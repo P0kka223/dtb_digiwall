@@ -21,19 +21,18 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     addUser: {
-      // The reducer handles updating the state array
       reducer(state, action: PayloadAction<User>) {
         state.push(action.payload);
       },
-      // The prepare callback handles the logic of creating the object
+
       prepare(email: string, username: string, password: string) {
         return {
           payload: {
-            id: nanoid(), // Generates a unique ID
+            id: nanoid(), 
             email,
             username,
             password,
-          } as User, // "as User" ensures the payload matches your interface
+          } as User, 
         };
       },
     },

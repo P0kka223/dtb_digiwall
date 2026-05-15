@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from './state/store';
 import SignInForm from './components/signInForm';
 import Dashboard from './components/dashboard';
+import Registerform from './components/registerform';
 import './App.css'
 
 const App: React.FC = () => {
@@ -15,12 +16,14 @@ const App: React.FC = () => {
               Is authenticated true? Show Dashboard.
               Else? Show SignInForm.
           */}
-          {isAuthenticated ? (
+          {/* {isAuthenticated ? (
               <Dashboard />
           ) : (
               <SignInForm />
-          )}
+          )} */}
+          <Registerform />
       </main>
+
   );
 };
 
