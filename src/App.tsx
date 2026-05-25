@@ -1,21 +1,20 @@
 import { useSelector } from 'react-redux';
 import type { RootState } from './state/store';
-import SignInForm from './components/signInForm';
-import Dashboard from './components/dashboard';
+import SignInForm from './components/logInForm2.tsx';
 import './App.css'
-import Registerform from './components/registerform.tsx'
 import { useState } from "react";
+import RegForm from './components/regform.tsx';
 
 const App: React.FC = () => {
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  // const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const [isSignIn, setIsSignIn] = useState(true);
 
   return (
-    <div>
+    <div className="app-container">
       {isSignIn ? (
         <SignInForm />
       ) : (
-        <Registerform />
+        <RegForm />
       )}
 
       <button onClick={() => setIsSignIn(!isSignIn)}>
