@@ -2,19 +2,19 @@ import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
 import type { User } from "./userSlice";
 
 interface AuthState {
-    user: User | null;    
-    token: string | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    error: boolean;
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null; // ← was boolean, should be string to store error message
 }
 
 const initialState: AuthState = {
-    user: null,   
-    token: null,  
-    isAuthenticated: false,
-    isLoading:false,
-    error: false,
+  user: null,
+  token: null,
+  isAuthenticated: false,
+  isLoading: false,
+  error: null,
 };
 
 const authSlice = createSlice({
@@ -25,24 +25,21 @@ const authSlice = createSlice({
           state.isLoading = true;
         },
         // 1. Filled the missing generic type PayloadAction<User> to match state.user type
-        loginSuccess: (state, action: PayloadAction<User>) => {
-          state.user = action.payload;//have to switch this to the user we get from the loginresponse
-          state.isLoading=false;
-          state.isAuthenticated = true;
-          state.token = nanoid(); //again from login response. the action payload will contain this
-          state.error = null;
-        },
-        loginFailure: (state, action: PayloadAction<string>) => {
-          state.status = 'failed';
-          state.error = action.payload;
-        },
+       loginSuccess: (state, action: PayloadAction<{ user: User; token: string }>) => {
+      state.user = action.payload.user;       // ← real user from backend
+      state.token = action.payload.token;     // ← real token from backend
+      state.isLoading = false;
+      state.isAuthenticated = true;
+      state.error = null;
+    },
+
+    loginFailure: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.isAuthenticated = false;
+      state.error = action.payload;           // ← store the error message
+    },
         // 2. Changed action payload type to User to avoid type mismatch with state.user
-        setUser(state, action: PayloadAction<User>){
-            state.user = action.payload;
-        },
-        loading(state,action: PayloadAction<string>){
-            state.isloading
-        }
+        
     }
 });
 

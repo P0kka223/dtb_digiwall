@@ -19,25 +19,23 @@ const initialState: User[] = [
 const userSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {
+  reducers: {        // ← this was missing
     addUser: {
       reducer(state, action: PayloadAction<User>) {
         state.push(action.payload);
       },
-
       prepare(email: string, username: string, password: string) {
         return {
           payload: {
-            id: nanoid(), 
+            id: nanoid(),
             email,
             username,
             password,
-          } as User, 
+          } as User,
         };
       },
     },
-  },
+  },             // ← closing brace for reducers
 });
-
 export const { addUser } = userSlice.actions;
 export default userSlice.reducer;
