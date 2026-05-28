@@ -10,8 +10,8 @@ const CustomInput=({label,...props}: CustomInputProps)=>{
     //field being the wiring like onBlur etc and 
     //meta being things like status eg errors and touched
     const [field, meta] = useField(props);
-    console.log('field',field);
-    console.log('meta',meta);
+    // console.log('field',field);
+    // console.log('meta',meta);
     return(
         <>
         {/* we first get the label */}

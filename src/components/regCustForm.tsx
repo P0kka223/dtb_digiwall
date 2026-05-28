@@ -1,54 +1,17 @@
 import { useRegCustService } from '../services/useUserService';
-import { Formik,Form, type FormikHelpers,} from 'formik';
+import { Formik,Form, type FormikHelpers, useFormik, FormikProvider} from 'formik';
 import { loginSchema,regCustSchema } from '../schemas/schema';
 import type { registerCustomerPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
-import CustomCheckBox from './elements/customCheckbox';
+import CustomCheckBox from './elements/customCheckBox';
+import { useRegisterCustomerMutation } from '../features/api/api';
 
-    const RegCustForm: React.FC = () => {
+    const RegCustForm: React.FC = ()=> {
 
-      const { CustRegister, isRegistering, CustRegisterError } = useRegCustService();
+      // const { CustRegister, isRegistering, CustRegisterError } = useRegCustService();
       
-  
-  const onSubmit = async (values: registerCustomerPostRequest, actions: FormikHelpers<registerCustomerPostRequest>) => {
-    try {
-      const fullName = await CustRegister(values);
-      // TODO:after this we have to notify customer that they have registered
-      //then we have to redirect back to sign in
-      console.log(`Success! Welcome, ${fullName}`);
-      
-      //EXP:Clean up the form on success.  
-      //TODO: Although we may have to change this now that we redirect
-      actions.resetForm();
-    }
-   catch (err) {
-    // EXP:The error is already caught/logged by the service layer.
-    // EXP: We catch it here just to prevent the app from crashing.
-    console.error('UI caught login failure');
-  } finally {
-    // EXP: Always tell Formik we are done so it doesn't stay stuck loading
-    actions.setSubmitting(false);
-  }
-};
-
   return (
-<Formik
-  initialValues={{
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    nationalId: "",
-    password: "",
-    kraPin: "",
-    dateOfBirth: "",
-    termsAccepted: false,
-  }}
-
-  validationSchema={regCustSchema} 
-  onSubmit={onSubmit}
->
-  {({ isSubmitting }) => (
-    <Form>
+<div>
       <CustomInput
         label="Full Name"
         name="fullName"
@@ -98,12 +61,11 @@ import CustomCheckBox from './elements/customCheckbox';
         label="I accept the terms and conditions" 
       />
 
-      <button disabled={isSubmitting} type="submit">
-        {isSubmitting ? "Registering..." : "Register"}
+      <button type="submit">
+      Register
+        {/* {isSubmitting ? "Registering..." : "Register"} */}
       </button>
-    </Form>
-  )}
-</Formik>
+    </div>
   );
 
       }

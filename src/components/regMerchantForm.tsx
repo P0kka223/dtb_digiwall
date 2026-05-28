@@ -3,7 +3,7 @@ import { Formik,Form, type FormikHelpers,} from 'formik';
 import { regMerchantSchema } from '../schemas/schema';
 import type { registerMerchantPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
-import CustomCheckBox from './elements/customCheckbox';
+import CustomCheckBox from './elements/customCheckBox';
 import CustomSelect from './elements/CustomSelect';
 
     const RegMerchantForm: React.FC = () => {

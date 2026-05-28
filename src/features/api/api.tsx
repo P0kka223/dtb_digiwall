@@ -47,25 +47,30 @@ export type registerCustomerPostRequest = {
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL as string }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL as string, 
+    prepareHeaders: (headers) => {
+      headers.set('ngrok-skip-browser-warning', 'true');
+      return headers;
+    }
+  }),
   endpoints: (builder) => ({
     logIn: builder.mutation<loginPostResponse, loginPostRequest>({
       query: (credentials) => ({
-        url: '/login',
+        url: 'api/auth/login',
         method: 'POST',
         body: credentials,
       }),
     }),
     registerCustomer: builder.mutation<any, registerCustomerPostRequest>({
       query: (customerData) => ({
-        url: '/register/customer',
+        url: 'api/auth/register/customer',
         method: 'POST',
         body: customerData,
       }),
     }),
     registerMerchant: builder.mutation<any, registerMerchantPostRequest>({
       query: (merchantData) => ({
-        url: '/register/merchant',
+        url: 'api/auth/register/merchant',
         method: 'POST',
         body: merchantData,
       }),

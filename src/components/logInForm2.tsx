@@ -5,16 +5,16 @@ import CustomInput from './elements/customInput';
 
     const SignInForm: React.FC = () => {
  
-  const { login, isloading, isFetching, error } = useLogInMutation();
+  const [ login,isAuthenticating ] = useLogInMutation();
       
-  const isAuthenticating = isloading || isFetching
+  // const isAuthenticating = isloading || isFetching
 
   const onSubmit = async (values: loginPostRequest, actions: FormikHelpers<loginPostRequest>) => {
     try {
-     await login(values.email, values.password);
+     await login(values);
 
       actions.resetForm();
-      router.push('/')
+      // router.push('/')
     }
    catch (err) {
     // The error is already caught/logged by the service layer.
@@ -44,7 +44,7 @@ import CustomInput from './elements/customInput';
             name="password"
             type="password"
             placeholder="Please enter your Password" />
-           <button disabled={isAuthenticating} type="submit">Submit</button> 
+           <button disabled={isSubmitting} type="submit">Submit</button> 
         </Form>
       )}
     </Formik>

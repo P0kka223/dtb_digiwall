@@ -9,8 +9,8 @@ interface CustomSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement
 const CustomSelect = ({ label, ...props }: CustomSelectProps) => {
     const [field, meta] = useField(props);
     
-    console.log('field', field);
-    console.log('meta', meta);
+    // console.log('field', field);
+    // console.log('meta', meta);
     
     return (
         <>

@@ -57,13 +57,11 @@ export const useRegCustService = () => {
   const handleCustRegister= async(credentials: any)=>{
     try {
 
-      const responseData = await runRegisterApi(credentials).unwrap();
-
-      return responseData.fullName; 
+      await runRegisterApi(credentials).unwrap(); 
     } catch (error) {
 
       console.error('Service layer caught an error:', error);
-      throw error; 
+      throw error;
     }
   };
 

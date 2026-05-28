@@ -8,8 +8,8 @@ interface customCheckBox extends React.InputHTMLAttributes<HTMLInputElement>{
 
 const CustomCheckBox=({label,...props}: customCheckBox)=>{
     const [field, meta] = useField(props);
-    console.log('field',field);
-    console.log('meta',meta);
+    // console.log('field',field);
+    // console.log('meta',meta);
     return(
         <>
         <div className='checkbox'>
