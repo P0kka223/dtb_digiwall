@@ -4,15 +4,12 @@ import type { registerCustomerPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
 import CustomCheckBox from './elements/customCheckBox';
 import { useRegisterCustomerMutation } from '../features/api/api';
-import { useDispatch } from 'react-redux';
-
+import {Card,CardContent,Button,Typography} from '@mui/material';
 
 
     const RegCustForm: React.FC = ()=> {
 
       const [registerCustApi]=useRegisterCustomerMutation();
-      const dispatch=useDispatch();
-
 
       const CustomerInitialValues = {
         fullName: "",
@@ -34,7 +31,10 @@ import { useDispatch } from 'react-redux';
       }})
       
   return (
-  <FormikProvider value={formik} >
+    <Card variant="outlined" sx={{maxWidth:400}}>
+    <CardContent>
+        <Typography>Customer Details</Typography>
+        <FormikProvider value={formik} >
     <Form>
       <CustomInput
         label="Full Name"
@@ -85,12 +85,15 @@ import { useDispatch } from 'react-redux';
         label="I accept the terms and conditions" 
       />
 
-      <button type="submit" disabled={formik.isSubmitting}>
-      Register
+      <Button type="submit" disabled={formik.isSubmitting}>
         {formik.isSubmitting ? "Registering..." : "Register"}
-      </button>
+      </Button>
       </Form>
       </FormikProvider>
+    </CardContent>
+    </Card>
+    
+
     
   );
 

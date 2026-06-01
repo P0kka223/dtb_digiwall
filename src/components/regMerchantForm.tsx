@@ -1,13 +1,14 @@
-import { useRegMerchantService } from '../services/useUserService';
-import { Form,useFormik,FormikProvider, type FormikHelpers} from 'formik';
+import { Form,useFormik,FormikProvider} from 'formik';
 import { regMerchantSchema } from '../schemas/schema';
 import { useRegisterMerchantMutation, type registerMerchantPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
 import CustomCheckBox from './elements/customCheckBox';
 import CustomSelect from './elements/customSelect';
+import {Card,CardContent,Button,Typography} from '@mui/material';
 
     const RegMerchantForm: React.FC = () => {
 
+        
       const [registerMerchantApi]=useRegisterMerchantMutation()
 
       const MerchantInitialValues={
@@ -39,7 +40,11 @@ import CustomSelect from './elements/customSelect';
       
 
   return (
-<FormikProvider value={formik}>
+
+    <Card variant="outlined" sx={{maxWidth:400}}>
+    <CardContent>
+        <Typography>Register Merchant</Typography>
+        <FormikProvider value={formik}>
     <Form>
       <h3>Personal Information</h3>
       <CustomInput
@@ -140,11 +145,15 @@ import CustomSelect from './elements/customSelect';
         label="I accept the merchant terms and conditions" 
       />
 
-      <button disabled={formik.isSubmitting} type="submit">
+      <Button disabled={formik.isSubmitting} type="submit">
         {formik.isSubmitting ? "Registering Merchant..." : "Register Merchant"}
-      </button>
+      </Button>
     </Form>
 </FormikProvider>
+    </CardContent>
+    </Card>
+    
+
   );
 
       }

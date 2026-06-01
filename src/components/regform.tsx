@@ -37,9 +37,6 @@ const MerchantInitialValues ={
       const [userType, setUserType]=useState<string>('Customer')
 
   return (
-    // <FormikProvider value={formik}>
-    //     {/* we are opening the vault to get values */}
-    //     <Form noValidate onSubmit={formik.handleSubmit}>
           <div>
             <select
               // p="Register as a Customer or Merchant"
@@ -55,8 +52,6 @@ const MerchantInitialValues ={
               </div>
             </div>
 
-
-    // </FormikProvider>
   );
 
       }

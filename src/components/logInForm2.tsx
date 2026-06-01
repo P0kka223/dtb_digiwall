@@ -4,6 +4,23 @@ import { useLogInMutation, type loginPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
 import { useDispatch } from 'react-redux';
 import { logInSuccess } from '../state/reducers/authSlice';
+import { jwtDecode } from "jwt-decode";
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { Box } from '@mui/material';
+
+
+
+interface MyJwtPayload {
+  sub: string;       // Usually the user ID
+  fullName: string;  // Custom claim you might have added
+  role: string;      
+  exp: number;       // Expiration timestamp
+  iat: number;       // Issued at timestamp
+}
 
     const SignInForm: React.FC = () => {
  
@@ -21,16 +38,20 @@ import { logInSuccess } from '../state/reducers/authSlice';
       if (values.email === 'stephen@gmail.com' && values.password === 'Stephen123!') {
         console.log('Dummy login successful. Dispatching to Redux...');
         
-        dispatch(logInSuccess());
+        const dummyDispatchMsg=dispatch(logInSuccess({token:"yougetincongrats",user:"Steve"}));
+        console.log(dummyDispatchMsg)
         
         actions.resetForm();
         return; 
       }
 
       // NORMAL API CALL
-      await login(values).unwrap();
+      const responseData=await login(values).unwrap();
       
-      dispatch(logInSuccess())
+    localStorage.setItem('token', responseData.accessToken);
+      const decodedData = jwtDecode<MyJwtPayload>(responseData.accessToken);
+      const loginDispatchMsg=dispatch(logInSuccess({token:responseData.accessToken,user:decodedData.fullName}))
+      console.log(loginDispatchMsg)
       actions.resetForm();
       
     } 
@@ -46,12 +67,16 @@ import { logInSuccess } from '../state/reducers/authSlice';
 };
 
   return (
-    <Formik
+    <Card variant="outlined" sx={{maxWidth:400}}>
+    <CardContent>
+        <Typography>Log in Form</Typography>
+        <Formik
       initialValues={{ email:"",password:"" }} 
       validationSchema={loginSchema} 
       onSubmit={onSubmit}>
       {({isSubmitting}) => (
         <Form>
+            <Box sx={{display:'flex',flexFlow:"column wrap",alignContent:'space-around'}}>
           <CustomInput
             label="Email"
             name="email"
@@ -62,10 +87,13 @@ import { logInSuccess } from '../state/reducers/authSlice';
             name="password"
             type="password"
             placeholder="Please enter your Password" />
-           <button disabled={isSubmitting} type="submit">Submit</button> 
+            <Button disabled={isSubmitting} type="submit">Log In</Button>
+            </Box>
         </Form>
       )}
     </Formik>
+    </CardContent>
+    </Card>
   );
 
       }

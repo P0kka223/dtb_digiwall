@@ -1,72 +1,165 @@
-import { Formik, Form, type FormikHelpers } from 'formik';
-import { loginSchema } from '../schemas/schema';
-import { useLogInMutation, type loginPostRequest } from '../features/api/api';
+import { Form,useFormik,FormikProvider} from 'formik';
+import { regMerchantSchema } from '../schemas/schema';
+import { useRegisterMerchantMutation, type registerMerchantPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
+import CustomCheckBox from './elements/customCheckBox';
+import CustomSelect from './elements/customSelect';
+import {Card,CardContent,Button,Typography} from '@mui/material';
 
-// 1. IMPORT useDispatch AND YOUR SLICE ACTION
-import { useDispatch } from 'react-redux';
-import { setAuthenticated } from '../features/auth/authSlice'; // <-- UPDATE THIS PATH & NAME
+    const RegMerchantForm: React.FC = () => {
 
-const SignInForm: React.FC = () => {
-  const [login] = useLogInMutation();
-  const dispatch = useDispatch(); // 2. INITIALIZE DISPATCH
-
-  const onSubmit = async (values: loginPostRequest, actions: FormikHelpers<loginPostRequest>) => {
-    try {
-      // 3. DUMMY CHECK WITH DISPATCH
-      if (values.email === 'stephen@gmail.com' && values.password === 'Stephen123!') {
-        console.log('Dummy login successful. Dispatching to Redux...');
         
-        // Dispatch your action to flip isAuthenticated to true
-        // Update the payload below to match whatever your slice expects!
-        dispatch(setAuthenticated({ isAuthenticated: true, user: 'Stephen' }));
-        
-        actions.resetForm();
-        return; // Exit out before hitting the real API
+      const [registerMerchantApi]=useRegisterMerchantMutation()
+
+      const MerchantInitialValues={
+          fullName: "",
+          email: "",
+          phoneNumber: "",
+          nationalId: "",
+          password: "",
+          kraPin: "",
+          dateOfBirth: "",
+          businessName: "",
+          businessRegNum: "",
+          businessKraPin: "",
+          businessType: "",
+          bankName: "",
+          bankAccountNum: "" as unknown as number, // Yup will automatically convert this string input into a TypeScript number!
+          bankAccountHolder: "",
+          termsAccepted: false,
       }
 
-      // NORMAL API CALL
-      const response = await login(values).unwrap();
-      
-      // Don't forget to also dispatch on a REAL successful login!
-      dispatch(setAuthenticated({ isAuthenticated: true, user: response.user }));
 
-      actions.resetForm();
+      const formik=useFormik({
+        initialValues: MerchantInitialValues,
+        validationSchema: regMerchantSchema,
+        onSubmit:  async(values: registerMerchantPostRequest)=>{
+            await registerMerchantApi(values);
+            console.log('at submission>>>>>')
+      }})
       
-    } catch (err) {
-      console.error('UI caught login failure', err);
-    } finally {
-      actions.setSubmitting(false);
-    }
-  };
 
   return (
-    <Formik
-      initialValues={{ email: "", password: "" }} 
-      validationSchema={loginSchema} 
-      onSubmit={onSubmit}
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <CustomInput
-            label="Email"
-            name="email"
-            type="email"
-            placeholder="Please enter your email" 
-          />
-          <CustomInput
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="Please enter your Password" 
-          />
-          <button disabled={isSubmitting} type="submit">
-            {isSubmitting ? 'Logging in...' : 'Submit'}
-          </button> 
-        </Form>
-      )}
-    </Formik>
-  );
-}
 
-export default SignInForm;
+    <Card variant="outlined" sx={{maxWidth:400}}>
+    <CardContent>
+        <Typography>Register Merchant</Typography>
+        <FormikProvider value={formik}>
+    <Form>
+      <h3>Personal Information</h3>
+      <CustomInput
+        label="Full Name"
+        name="fullName"
+        type="text"
+        placeholder="Enter your full name"
+      />
+      <CustomInput
+        label="Email"
+        name="email"
+        type="email"
+        placeholder="Enter your email"
+      />
+      <CustomInput
+        label="Phone Number"
+        name="phoneNumber"
+        type="tel"
+        placeholder="Enter your phone number"
+      />
+      <CustomInput
+        label="National ID"
+        name="nationalId"
+        type="text"
+        placeholder="Enter your National ID"
+      />
+      <CustomInput
+        label="Password"
+        name="password"
+        type="password"
+        placeholder="Create a strong password"
+      />
+      <CustomInput
+        label="Personal KRA PIN"
+        name="kraPin"
+        type="text"
+        placeholder="Enter your personal KRA PIN"
+      />
+      <CustomInput
+        label="Date of Birth"
+        name="dateOfBirth"
+        type="date"
+      />
+
+      {/* --- Business Information --- */}
+      <h3>Business Information</h3>
+      <CustomInput
+        label="Business Name"
+        name="businessName"
+        type="text"
+        placeholder="Enter your registered business name"
+      />
+      <CustomInput
+        label="Business Registration Number"
+        name="businessRegNum"
+        type="text"
+        placeholder="e.g., PVT-XYZ123"
+      />
+      <CustomInput
+        label="Business KRA PIN"
+        name="businessKraPin"
+        type="text"
+        placeholder="Enter business KRA PIN"
+      />
+      <CustomSelect label="Business Type" name="businessType">
+        <option value="">Select a business type</option>
+        <option value="sole_proprietorship">Sole Proprietorship</option>
+        <option value="partnership">Partnership</option>
+        <option value="llc">Limited Liability Company (LLC)</option>
+        <option value="corporation">Corporation</option>
+      </CustomSelect>
+
+      {/* --- Banking Information --- */}
+      <h3>Banking Details</h3>
+      <CustomInput
+        label="Bank Name"
+        name="bankName"
+        type="text"
+        placeholder="e.g., Equity Bank, KCB"
+      />
+      <CustomInput
+        label="Bank Account Number"
+        name="bankAccountNum"
+        type="number" // Triggers the numeric keyboard!
+        placeholder="Enter your account number"
+      />
+      <CustomInput
+        label="Account Holder Name"
+        name="bankAccountHolder"
+        type="text"
+        placeholder="Name exactly as it appears on the account"
+      />
+      
+      {/* --- Terms and Submission --- */}
+      <CustomCheckBox 
+        name="termsAccepted" 
+        type="checkbox" 
+        label="I accept the merchant terms and conditions" 
+      />
+
+      <Button disabled={formik.isSubmitting} type="submit">
+        {formik.isSubmitting ? "Registering Merchant..." : "Register Merchant"}
+      </Button>
+    </Form>
+</FormikProvider>
+    </CardContent>
+    </Card>
+    
+
+  );
+
+      }
+
+export default RegMerchantForm;
+
+
+
+
