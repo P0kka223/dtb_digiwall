@@ -1,60 +1,45 @@
 import { useRegMerchantService } from '../services/useUserService';
-import { Formik,Form, type FormikHelpers,} from 'formik';
+import { Form,useFormik,FormikProvider, type FormikHelpers} from 'formik';
 import { regMerchantSchema } from '../schemas/schema';
-import type { registerMerchantPostRequest } from '../features/api/api';
+import { useRegisterMerchantMutation, type registerMerchantPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
 import CustomCheckBox from './elements/customCheckBox';
-import CustomSelect from './elements/CustomSelect';
+import CustomSelect from './elements/customSelect';
 
     const RegMerchantForm: React.FC = () => {
 
-      const { MerchantRegister, isRegistering, MerchantRegisterError } = useRegMerchantService();
+      const [registerMerchantApi]=useRegisterMerchantMutation()
+
+      const MerchantInitialValues={
+          fullName: "",
+          email: "",
+          phoneNumber: "",
+          nationalId: "",
+          password: "",
+          kraPin: "",
+          dateOfBirth: "",
+          businessName: "",
+          businessRegNum: "",
+          businessKraPin: "",
+          businessType: "",
+          bankName: "",
+          bankAccountNum: "" as unknown as number, // Yup will automatically convert this string input into a TypeScript number!
+          bankAccountHolder: "",
+          termsAccepted: false,
+      }
+
+
+      const formik=useFormik({
+        initialValues: MerchantInitialValues,
+        validationSchema: regMerchantSchema,
+        onSubmit:  async(values: registerMerchantPostRequest)=>{
+            await registerMerchantApi(values);
+            console.log('at submission>>>>>')
+      }})
       
-  
-  const onSubmit = async (values: registerMerchantPostRequest, actions: FormikHelpers<registerMerchantPostRequest>) => {
-    try {
-      const fullName = await MerchantRegister(values);
-      // TODO:after this we have to notify customer that they have registered through that window?
-      //then we have to redirect back to sign in
-      console.log(`Success! Welcome, ${fullName}`);
-      
-      //EXP:Clean up the form on success.  
-      //TODO: Although we may have to change this now that we redirect
-      actions.resetForm();
-    }
-   catch (err) {
-    // EXP:The error is already caught/logged by the service layer.
-    // EXP: We catch it here just to prevent the app from crashing.
-    console.error('UI caught login failure');
-  } finally {
-    // EXP: Always tell Formik we are done so it doesn't stay stuck loading
-    actions.setSubmitting(false);
-  }
-};
 
   return (
-<Formik
-  initialValues={{
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    nationalId: "",
-    password: "",
-    kraPin: "",
-    dateOfBirth: "",
-    businessName: "",
-    businessRegNum: "",
-    businessKraPin: "",
-    businessType: "",
-    bankName: "",
-    bankAccountNum: "" as unknown as number, // Yup will automatically convert this string input into a TypeScript number!
-    bankAccountHolder: "",
-    termsAccepted: false,
-  }}
-  validationSchema={regMerchantSchema} 
-  onSubmit={onSubmit}
->
-  {({ isSubmitting }) => (
+<FormikProvider value={formik}>
     <Form>
       <h3>Personal Information</h3>
       <CustomInput
@@ -155,12 +140,11 @@ import CustomSelect from './elements/CustomSelect';
         label="I accept the merchant terms and conditions" 
       />
 
-      <button disabled={isSubmitting} type="submit">
-        {isSubmitting ? "Registering Merchant..." : "Register Merchant"}
+      <button disabled={formik.isSubmitting} type="submit">
+        {formik.isSubmitting ? "Registering Merchant..." : "Register Merchant"}
       </button>
     </Form>
-  )}
-</Formik>
+</FormikProvider>
   );
 
       }

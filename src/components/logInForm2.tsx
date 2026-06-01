@@ -2,20 +2,38 @@ import { Formik,Form, type FormikHelpers,} from 'formik';
 import { loginSchema } from '../schemas/schema';
 import { useLogInMutation, type loginPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
+import { useDispatch } from 'react-redux';
+import { logInSuccess } from '../state/reducers/authSlice';
 
     const SignInForm: React.FC = () => {
  
-  const [ login,isAuthenticating ] = useLogInMutation();
+  const [ login ] = useLogInMutation();
+  const dispatch=useDispatch()
+
       
-  // const isAuthenticating = isloading || isFetching
 
   const onSubmit = async (values: loginPostRequest, actions: FormikHelpers<loginPostRequest>) => {
+    
+    
+    
     try {
-     await login(values);
+      //DUMMY LOGIN
+      if (values.email === 'stephen@gmail.com' && values.password === 'Stephen123!') {
+        console.log('Dummy login successful. Dispatching to Redux...');
+        
+        dispatch(logInSuccess());
+        
+        actions.resetForm();
+        return; 
+      }
 
+      // NORMAL API CALL
+      await login(values).unwrap();
+      
+      dispatch(logInSuccess())
       actions.resetForm();
-      // router.push('/')
-    }
+      
+    } 
    catch (err) {
     // The error is already caught/logged by the service layer.
     // We catch it here just to prevent the app from crashing.

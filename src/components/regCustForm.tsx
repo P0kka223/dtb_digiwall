@@ -1,17 +1,41 @@
-import { useRegCustService } from '../services/useUserService';
-import { Formik,Form, type FormikHelpers, useFormik, FormikProvider} from 'formik';
-import { loginSchema,regCustSchema } from '../schemas/schema';
+import { Form, useFormik, FormikProvider} from 'formik';
+import { regCustSchema } from '../schemas/schema';
 import type { registerCustomerPostRequest } from '../features/api/api';
 import CustomInput from './elements/customInput';
 import CustomCheckBox from './elements/customCheckBox';
 import { useRegisterCustomerMutation } from '../features/api/api';
+import { useDispatch } from 'react-redux';
+
+
 
     const RegCustForm: React.FC = ()=> {
 
-      // const { CustRegister, isRegistering, CustRegisterError } = useRegCustService();
+      const [registerCustApi]=useRegisterCustomerMutation();
+      const dispatch=useDispatch();
+
+
+      const CustomerInitialValues = {
+        fullName: "",
+        email: "",
+        phoneNumber: "",
+        nationalId: "",
+        password: "",
+        kraPin: "",
+        dateOfBirth: "",
+        termsAccepted: false,
+      }
+
+      const formik=useFormik({
+        initialValues: CustomerInitialValues,
+        validationSchema: regCustSchema,
+        onSubmit:  async(values: registerCustomerPostRequest)=>{
+            await registerCustApi(values);
+            console.log('at submission>>>>>')
+      }})
       
   return (
-<div>
+  <FormikProvider value={formik} >
+    <Form>
       <CustomInput
         label="Full Name"
         name="fullName"
@@ -61,11 +85,13 @@ import { useRegisterCustomerMutation } from '../features/api/api';
         label="I accept the terms and conditions" 
       />
 
-      <button type="submit">
+      <button type="submit" disabled={formik.isSubmitting}>
       Register
-        {/* {isSubmitting ? "Registering..." : "Register"} */}
+        {formik.isSubmitting ? "Registering..." : "Register"}
       </button>
-    </div>
+      </Form>
+      </FormikProvider>
+    
   );
 
       }
