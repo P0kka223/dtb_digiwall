@@ -1,95 +1,23 @@
-import React, { useState, type ChangeEvent, type FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import * as Yup from "yup";
 import {loginSuccess} from "../state/reducers/authSlice";
-import { nanoid } from "@reduxjs/toolkit";
-
-const Registerform:React.FC = ()=>{
-const dispatch = useDispatch();
- const [errors, setErrors] = useState <Partial<Record<keyof RegistrationForm, string>>>({});
+import {useFormik} from "formik";
+import {useNavigate} from "react-router-dom";
+//blueprint for our form
 interface RegistrationForm{
         fullname:string;
         email:string;
         pnumber:string;
         idnumber:string;
-        password:string;
+        password:string;  
+        confirmpassword: string;
         KRA:string;
         dob:string;
         terms:boolean;
     }
 
- const[formData,setData] = useState<RegistrationForm>({
-    fullname:"",
-    email:"",
-    pnumber:"",
-    idnumber:"",
-    password:"",
-    KRA:"",
-    dob:"",
-    terms:false
- });
- //monitors the keystrokes
-const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  const { name, value,type,checked } = e.target;
-
-  const finalValue = type === 'checkbox' ? checked : value;
-
-  setData((prev) => ({
-    ...prev,
-    [name]: finalValue,
-  }));
-};
-//stops the page from refreshing
-const handleSubmit = async (e:React.FormEvent<HTMLFormElement>)=>{
-    e.preventDefault();
-
-    const apiPayload: CreatePostBody = {
-        fullName: formData.fullname,
-        email: formData.email,
-        phoneNumber: formData.pnumber,
-        nationalId: formData.idnumber,
-        password: formData.password,
-        kraPin: formData.KRA,
-        dateOfBirth: formData.dob,
-        termsAccepted: true
-    };
-
-    createRegisterPost(apiPayload)
-    console.log("handled successfully", formData)
-
-   
-
-try{
-    await registrationSchema.validate(formData, {abortEarly: false})
-    setErrors({}); 
-
-const response = await createRegisterPost(apiPayload);
-dispatch(loginSuccess({
-  user: {                           // ← wrap user fields inside user object
-    username: formData.fullname,
-    email: formData.email,
-  },
-  token: response.accessToken    
-
-}));
-
-}
-catch (err) {
-   
-    if (err instanceof Yup.ValidationError) {
-      const fieldErrors: Partial<Record<keyof RegistrationForm, string>> = {};
-      err.inner.forEach((error) => {
-        if (error.path) {
-          fieldErrors[error.path as keyof RegistrationForm] = error.message;
-        }
-      });
-      setErrors(fieldErrors);
-    }
-  }
-};
-
-//yup validation schema which contains the list of all the validation checks 
+    //Yup registration schema
 const registrationSchema = Yup.object().shape({
     fullname: Yup.string()
     .required("Name is required")
@@ -105,7 +33,10 @@ const registrationSchema = Yup.object().shape({
     .required("Id number must be valid")
     .length(8, "Must have a maximum of 8"),
     password: Yup.string()
-    .required("Enter your password")
+    .required("Enter your password"),
+    confirmpassword: Yup.string()
+    .required("The password must match")
+    .oneOf([Yup.ref("password"), "Password does not match"])
     .length(10, "Password must be 10 characters"),
     KRA: Yup.string()
     .required("Enter your KRA pin")
@@ -115,13 +46,55 @@ const registrationSchema = Yup.object().shape({
 
 
 })
+//special typescript function
+const Registerform:React.FC = ()=>{
+const dispatch = useDispatch(); // allows us to send functions to redux
+const navigate = useNavigate();
 
+  const formik = useFormik<RegistrationForm>({
+initialValues:{
+   fullname: "",
+    email: "",
+    pnumber: "",
+    idnumber: "",
+    password: "",
+    confirmpassword: "",
+    KRA: "",
+    dob: "",
+    terms: false
+},
+//monitors the keystrokes. the handlechange is handled by formik
+validationSchema: registrationSchema, 
+
+onSubmit: async(values)=> {
+  try {
+        const response = await createRegisterPost({//sends form data to the backend
+          fullName: values.fullname,
+          email: values.email,
+          phoneNumber: values.pnumber,
+          nationalId: values.idnumber,
+          password: values.password,
+          kraPin: values.KRA,
+          dateOfBirth: values.dob,
+          termsAccepted: true
+        });
+        dispatch(loginSuccess({
+          user: { username: values.fullname, email: values.email, id: values.idnumber, password: values.password },
+          token: response.accessToken
+        }));
+
+        navigate("./signInForm.tsx")
+      } catch (err) {
+        console.error("Registration failed", err);
+      }
+}
+  })
 
     return(
         <>
         <h1>Register Form</h1>
         <div>
-            <form onSubmit = {handleSubmit}>
+            <form onSubmit = {formik.handleSubmit}>
                 <div>
 
                 <label htmlFor="fullname">First Name</label>
@@ -130,62 +103,86 @@ const registrationSchema = Yup.object().shape({
                 id="fullname"
                 name="fullname"
                 placeholder="Enter your first name"
-                value={formData.fullname} 
-              onChange={handleChange}
+                value={formik.values.fullname} 
+              onChange={formik.handleChange}
                 />
-   {errors.fullname && <p style={{ color: "red", fontSize: "12px" }}>{errors.fullname}</p>}
+    <p style={{ color: "red" }}>{formik.errors.fullname}</p>
                 </div>
-
+<div>
                 <label htmlFor="email">Email</label>
                 <input
                 type="email"
                 id="email"
                 name="email"
                 placeholder="Enter your email"
-                value={formData.email} 
-              onChange={handleChange}/>
+                value={formik.values.email} 
+              onChange={formik.handleChange}/>
+            <p style={{ color: "red" }}>{formik.errors.email}</p>
+</div>
+<div>
                 <label htmlFor="pnumber">Phone number</label>
                 <input
                 type="text"
                 id="pnumber"
                 name="pnumber"
                 placeholder="Enter your phone number"
-                value={formData.pnumber} 
-              onChange={handleChange}/>
+                value={formik.values.pnumber} 
+              onChange={formik.handleChange}/>
+              
+             <p style={{ color: "red" }}>{formik.errors.pnumber}</p>
+              </div>
+              <div>
                 <label htmlFor="idnumber">ID number</label>
                 <input
                 type="number"
                 id="idnumber"
                 name="idnumber"
                 placeholder="Enter your ID number"
-                value={formData.idnumber}
-              onChange={handleChange}/>
+                value={formik.values.idnumber}
+              onChange={formik.handleChange}/>
+               <p style={{ color: "red" }}>{formik.errors.idnumber}</p>
+              </div>
+              <div>
               <label htmlFor="password">Password</label>
                 <input
-                type="string"
+                type="password"
                 id="password"
                 name="password"
                 placeholder="Enter your Password number"
-                value={formData.password}
-                onChange={handleChange}/> 
+                value={formik.values.password}
+                onChange={formik.handleChange}/>
+                <p style={{ color: "red" }}>{formik.errors.password}</p>
+                  <div>
+              <label htmlFor="confrimpassword">Confirm your password</label>
+                <input
+                type="password"
+                id="confirmpassword"
+                name="confirmpassword"
+                placeholder="Confirm your Password number"
+                value={formik.values.confirmpassword}
+                onChange={formik.handleChange}/>
+                <p style={{ color: "red" }}>{formik.errors.confirmpassword}</p>
+                </div>
+                </div>
                 <label htmlFor="KRA">KRA</label>
                 <input
-                type="string"
+                type="text"
                 id="KRA"
                 name="KRA"
                 placeholder="Enter your Kra number"
-                value={formData.KRA} 
-              onChange={handleChange}/>
+                value={formik.values.KRA} 
+              onChange={formik.handleChange}/>
+              <p style={{ color: "red" }}>{formik.errors.KRA}</p>
                     <div>
                     <label htmlFor="dob">Date of Birth</label>
                     <input
                         type="date"
                         id="dob"
                         name="dob"
-                        value={formData.dob} // Format: yyyy-mm-dd
-                        onChange={handleChange}
-                        required
-                    />
+                        value={formik.values.dob} // Format: yyyy-mm-dd
+                        onChange={formik.handleChange}
+                        required/>
+                       <p style={{ color: "red" }}>{formik.errors.dob}</p>
                     </div>
 
                     {/* Terms and Conditions Checkbox */}
@@ -194,8 +191,8 @@ const registrationSchema = Yup.object().shape({
                         type="checkbox"
                         id="terms"
                         name="terms"
-                        checked={formData.terms}
-                        onChange={handleChange}
+                        checked={formik.values.terms}
+                        onChange={formik.handleChange}
                     />
                     <label htmlFor="terms"> I accept the terms and conditions</label>
                 </div>
@@ -211,7 +208,7 @@ const registrationSchema = Yup.object().shape({
     )
 }
 
-export default Registerform;
+
 
 
 type CreatePostBody = {
@@ -231,7 +228,7 @@ type CreateResponseBody={
     // role:string,
     // fullName:string
 }
-
+ 
 
 const createRegisterPost = async (data: CreatePostBody): Promise<CreateResponseBody> => {
     const response = await axios.post<CreateResponseBody>(
@@ -240,4 +237,7 @@ const createRegisterPost = async (data: CreatePostBody): Promise<CreateResponseB
     );
     console.log(response.data)
     return response.data;
-}
+  }
+
+
+export default Registerform;

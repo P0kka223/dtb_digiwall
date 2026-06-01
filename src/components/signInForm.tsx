@@ -3,8 +3,10 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../state/store.tsx"; 
 // import { performLogin } from "../state/reducers/authSlice";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignInForm: React.FC = () => {
+    const navigate = useNavigate();
     // In Redux Toolkit + TS, we often type the dispatch to handle Thunks correctly
     const dispatch = useDispatch<AppDispatch>();
 
@@ -23,6 +25,7 @@ const SignInForm: React.FC = () => {
                 password
             }
             createLoginPost(loginDetails);
+            navigate("./dashboard.tsx");
         }
     };
 

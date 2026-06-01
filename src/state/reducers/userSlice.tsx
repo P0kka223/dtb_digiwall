@@ -1,3 +1,4 @@
+//adds the user
 import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface User {
@@ -8,18 +9,12 @@ export interface User {
 }
 
 const initialState: User[] = [
-  {
-    id: "12345",
-    email: "dhruv@gmail.com",
-    username: "pokka",
-    password: "Police223"
-  },
 ];
 
 const userSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {        // ← this was missing
+  reducers: {        
     addUser: {
       reducer(state, action: PayloadAction<User>) {
         state.push(action.payload);
@@ -35,7 +30,7 @@ const userSlice = createSlice({
         };
       },
     },
-  },             // ← closing brace for reducers
+  },            
 });
 export const { addUser } = userSlice.actions;
 export default userSlice.reducer;
