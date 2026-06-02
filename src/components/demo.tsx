@@ -24,7 +24,7 @@ import {Card,CardContent,Button,Typography} from '@mui/material';
           businessKraPin: "",
           businessType: "",
           bankName: "",
-          bankAccountNum: "" as unknown as number, // Yup will automatically convert this string input into a TypeScript number!
+          bankAccountNumber: "" as unknown as number, // Yup will automatically convert this string input into a TypeScript number!
           bankAccountHolder: "",
           termsAccepted: false,
       }
@@ -127,7 +127,7 @@ import {Card,CardContent,Button,Typography} from '@mui/material';
       />
       <CustomInput
         label="Bank Account Number"
-        name="bankAccountNum"
+        name="bankAccountNumber"
         type="number" // Triggers the numeric keyboard!
         placeholder="Enter your account number"
       />

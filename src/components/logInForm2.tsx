@@ -35,7 +35,7 @@ interface MyJwtPayload {
     
     try {
       //DUMMY LOGIN
-      if (values.email === 'stephen@gmail.com' && values.password === 'Stephen123!') {
+      if (values.email === 'stephe223@gmail.com' && values.password === 'Stephen123!') {
         console.log('Dummy login successful. Dispatching to Redux...');
         
         const dummyDispatchMsg=dispatch(logInSuccess({token:"yougetincongrats",user:"Steve"}));

@@ -20,12 +20,12 @@ import {Card,CardContent,Button,Typography} from '@mui/material';
           kraPin: "",
           dateOfBirth: "",
           businessName: "",
-          businessRegNum: "",
+          businessRegistrationNumber: "",
           businessKraPin: "",
           businessType: "",
           bankName: "",
-          bankAccountNum: "" as unknown as number, // Yup will automatically convert this string input into a TypeScript number!
-          bankAccountHolder: "",
+          bankAccountNumber: "" as unknown as number, // Yup will automatically convert this string input into a TypeScript number!
+          bankAccountHolderName: "",
           termsAccepted: false,
       }
 
@@ -99,7 +99,7 @@ import {Card,CardContent,Button,Typography} from '@mui/material';
       />
       <CustomInput
         label="Business Registration Number"
-        name="businessRegNum"
+        name="businessRegistrationNumber"
         type="text"
         placeholder="e.g., PVT-XYZ123"
       />
@@ -127,13 +127,13 @@ import {Card,CardContent,Button,Typography} from '@mui/material';
       />
       <CustomInput
         label="Bank Account Number"
-        name="bankAccountNum"
+        name="bankAccountNumber"
         type="number" // Triggers the numeric keyboard!
         placeholder="Enter your account number"
       />
       <CustomInput
         label="Account Holder Name"
-        name="bankAccountHolder"
+        name="bankAccountHolderName"
         type="text"
         placeholder="Name exactly as it appears on the account"
       />

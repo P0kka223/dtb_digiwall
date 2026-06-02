@@ -49,16 +49,16 @@ export const regMerchantSchema = yup.object().shape({
     dateOfBirth: yup.string().required("Required"),
     termsAccepted: yup.boolean().oneOf([true], "Please accept the terms of service").required("Required"),
     businessName: yup.string().required("Required"),
-    businessRegNum: yup.string().required("Required"),
+    businessRegistrationNumber: yup.string().required("Required"),
     businessKraPin: yup.string().required("Required"),
     businessType: yup.string().required("Required"),
     bankName: yup.string().required("Required"),
-    bankAccountNum: yup.number()
+    bankAccountNumber: yup.number()
         .typeError("Bank account must be a valid number") // Protects against users typing text
         .positive("Bank account number cannot be negative")
         .integer("Bank account number cannot contain decimals")
         .required("Required"),
-    bankAccountHolder: yup.string().required("Required"),
+    bankAccountHolderName: yup.string().required("Required"),
 });
 
 export type RegMerchantValues = yup.InferType<typeof regMerchantSchema>;

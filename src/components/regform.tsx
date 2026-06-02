@@ -25,12 +25,12 @@ const MerchantInitialValues ={
   kraPin: "",
   dateOfBirth: "",
   businessName: "",
-  businessRegNum: "",
+  businessRegistrationNumber: "",
   businessKraPin: "",
   businessType: "",
   bankName: "",
-  bankAccountNum: "" as unknown as number, 
-  bankAccountHolder: "",
+  bankAccountNumber: "" as unknown as number, 
+  bankAccountHolderName: "",
   termsAccepted: false,
 }
     const RegForm: React.FC = () => {

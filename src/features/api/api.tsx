@@ -37,12 +37,12 @@ export type registerCustomerPostRequest = {
     dateOfBirth: string;      
     termsAccepted: boolean;
     businessName: string;
-    businessRegNum:string;
+    businessRegistrationNumber:string;
     businessKraPin:string;
     businessType:string;
     bankName:string;
-    bankAccountNum:number;
-    bankAccountHolder:string;
+    bankAccountNumber:number;
+    bankAccountHolderName:string;
   };
 
 export const apiSlice = createApi({
