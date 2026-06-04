@@ -17,6 +17,7 @@ interface RegistrationForm{
         terms:boolean;
     }
 
+
     //Yup registration schema
 const registrationSchema = Yup.object().shape({
     fullname: Yup.string()
@@ -27,8 +28,8 @@ const registrationSchema = Yup.object().shape({
     .email("Email is required"),
     pnumber:Yup.string()
     .required("Enter your phone number")
-    .length(10, "Must be 10 numbers")
-    .matches(/^[0-9]+$/, "Must be a valid phone number"),
+    .matches(/^(?:254|\+254|0)(7|1)\d{8}$/,
+    "Enter a valid Kenyan phone number e.g. 0712345678"),
     idnumber: Yup.string()
     .required("Id number must be valid")
     .length(8, "Must have a maximum of 8"),
@@ -36,7 +37,7 @@ const registrationSchema = Yup.object().shape({
     .required("Enter your password"),
     confirmpassword: Yup.string()
     .required("The password must match")
-    .oneOf([Yup.ref("password"), "Password does not match"])
+    .oneOf([Yup.ref("password")], "Password does not match")
     .length(10, "Password must be 10 characters"),
     KRA: Yup.string()
     .required("Enter your KRA pin")
@@ -92,12 +93,14 @@ onSubmit: async(values)=> {
 
     return(
         <>
-        <h1>Register Form</h1>
+        <div className="flex justify-center items-center p-4 space-y-4 shadow-md">
+        
         <div>
-            <form onSubmit = {formik.handleSubmit}>
+            <form className="bg-red-300 rounded space-y-4 p-12" onSubmit = {formik.handleSubmit}>
+              <h1 className="flex justify-center">Register Form</h1>
                 <div>
 
-                <label htmlFor="fullname">First Name</label>
+                <label htmlFor="fullname">First Name: </label>
                 <input
                 type="text"
                 id="fullname"
@@ -109,7 +112,7 @@ onSubmit: async(values)=> {
     <p style={{ color: "red" }}>{formik.errors.fullname}</p>
                 </div>
 <div>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email: </label>
                 <input
                 type="email"
                 id="email"
@@ -120,7 +123,7 @@ onSubmit: async(values)=> {
             <p style={{ color: "red" }}>{formik.errors.email}</p>
 </div>
 <div>
-                <label htmlFor="pnumber">Phone number</label>
+                <label htmlFor="pnumber">Phone number: </label>
                 <input
                 type="text"
                 id="pnumber"
@@ -132,7 +135,7 @@ onSubmit: async(values)=> {
              <p style={{ color: "red" }}>{formik.errors.pnumber}</p>
               </div>
               <div>
-                <label htmlFor="idnumber">ID number</label>
+                <label htmlFor="idnumber">ID number: </label>
                 <input
                 type="number"
                 id="idnumber"
@@ -143,7 +146,7 @@ onSubmit: async(values)=> {
                <p style={{ color: "red" }}>{formik.errors.idnumber}</p>
               </div>
               <div>
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Password: </label>
                 <input
                 type="password"
                 id="password"
@@ -153,7 +156,7 @@ onSubmit: async(values)=> {
                 onChange={formik.handleChange}/>
                 <p style={{ color: "red" }}>{formik.errors.password}</p>
                   <div>
-              <label htmlFor="confrimpassword">Confirm your password</label>
+              <label htmlFor="confrimpassword">Confirm your password: </label>
                 <input
                 type="password"
                 id="confirmpassword"
@@ -164,7 +167,7 @@ onSubmit: async(values)=> {
                 <p style={{ color: "red" }}>{formik.errors.confirmpassword}</p>
                 </div>
                 </div>
-                <label htmlFor="KRA">KRA</label>
+                <label htmlFor="KRA">KRA: </label>
                 <input
                 type="text"
                 id="KRA"
@@ -174,7 +177,7 @@ onSubmit: async(values)=> {
               onChange={formik.handleChange}/>
               <p style={{ color: "red" }}>{formik.errors.KRA}</p>
                     <div>
-                    <label htmlFor="dob">Date of Birth</label>
+                    <label htmlFor="dob">Date of Birth: </label>
                     <input
                         type="date"
                         id="dob"
@@ -196,13 +199,9 @@ onSubmit: async(values)=> {
                     />
                     <label htmlFor="terms"> I accept the terms and conditions</label>
                 </div>
-
-
-              
-              
-
                 <button type="submit">Sign Up</button>
             </form>
+        </div>
         </div>
         </>
     )

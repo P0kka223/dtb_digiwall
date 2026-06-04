@@ -4,69 +4,87 @@ import type { AppDispatch } from "../state/store.tsx";
 // import { performLogin } from "../state/reducers/authSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { loginSuccess } from "../state/reducers/authSlice";
 
-const SignInForm: React.FC = () => {
-    const navigate = useNavigate();
-    // In Redux Toolkit + TS, we often type the dispatch to handle Thunks correctly
-    const dispatch = useDispatch<AppDispatch>();
+interface SignInFormProps {
+  onLoginSuccess: () => void;
+}
 
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
 
-    const onEmailChanged = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
-    const onPasswordChanged = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+const SignInForm: React.FC<SignInFormProps> = ({ onLoginSuccess }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-    const onSignInClicked = (): void => {
-        if (email && password) {
-            // We pass an object that matches the credentials expected by the Thunk
-            // dispatch(performLogin({ email, password }));
-            const loginDetails: CreatePostBody={
-                email,
-                password
-            }
-            createLoginPost(loginDetails);
-            navigate("./dashboard.tsx");
-        }
-    };
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
+  // Make it async to await the API call
+  const onSignInClicked = async (): Promise<void> => {
+    if (email && password) {
+      try {
+        const response = await createLoginPost({ email, password });
+
+        // Save token to localStorage
+        localStorage.setItem("token", response.accessToken);
+
+        // Dispatch to Redux so isAuthenticated becomes true
+        dispatch(loginSuccess({
+          user: { email },
+          token: response.accessToken
+        }));
+
+        onLoginSuccess();       // tells App.tsx login succeeded
+        navigate("/dashboard"); // redirect to dashboard
+
+      } catch (err) {
+        console.error("Login failed", err);
+      }
+    }
+  };
     return (
-        <section>
-            <h2>Sign In</h2>
-            {/* The preventDefault here stops the page from refreshing on enter/click */}
-            <form onSubmit={(e) => e.preventDefault()}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={email}
-                        onChange={(e)=>setEmail(e.target.value)}
-                        placeholder="Enter email"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={password}
-                        onChange={onPasswordChanged}
-                        placeholder="Enter password"
-                    />
-                </div>
-
-                <button 
-                    type="button" 
-                    onClick={onSignInClicked}
-                    disabled={!email || !password} // Good practice to disable if empty
-                >
-                    Sign In
-                </button>
-            </form>
-        </section>
+            <div className="min-h-screen flex items-center justify-center bg-gray">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="p-8 rounded-xl shadow-md w-full max-w-md bg-red-300 space-y-4"
+      >
+        <h1 className="text-center">Sign In</h1>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email"
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+          />
+        </div>
+        <div className="flex justify-center">
+          <button type="button" onClick={onSignInClicked}>
+            Sign In
+          </button>
+       
+        </div>
+         
+             <div className="flex justify-center">
+          <button type="button" onClick={() => navigate("/register")}>
+            Don't have an account? Register
+          </button>
+        </div>
+      </form>
+    </div>
+           
     );
 };
 

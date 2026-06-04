@@ -2,10 +2,10 @@
 import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface User {
-  id: string;
+  id?: string;
   email: string;
-  username: string;
-  password: string; 
+  username?: string;
+  password?: string; 
 }
 
 const initialState: User[] = [
