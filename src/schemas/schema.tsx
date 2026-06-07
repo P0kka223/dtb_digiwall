@@ -62,3 +62,11 @@ export const regMerchantSchema = yup.object().shape({
 });
 
 export type RegMerchantValues = yup.InferType<typeof regMerchantSchema>;
+
+export const  paymentRequestSchema =yup.object().shape({
+    email: yup.string().email("Please enter a valid email").required("Required"),
+    amount: yup.string().matches(/^[0-9.]+$/, "Must be only numbers").required("Required"),
+    description: yup.string()
+})
+
+export type PaymentRequest = yup.InferType<typeof paymentRequestSchema>;

@@ -5,9 +5,6 @@ import { styled } from '@mui/material/styles';
 import QuickActions from './QuickActions/QuickActions';
 import RecentTrans from './RecentTrans/RecentTrans';
 
-
-
-
 function CustDashboard() {
 
 

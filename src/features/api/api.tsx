@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { useSelector } from 'react-redux';
+
 
 
 
@@ -45,18 +47,38 @@ export type registerCustomerPostRequest = {
     bankAccountHolderName:string;
   };
 
+  //type for wallet
+  export type walletGetResponse={
+    availableBalance:number;
+    pendingBalance:number;
+  }
+
+  //type for payment request
+  export type paymentPostRequest={
+    email:string;
+    amount:number;
+    description:string;
+  }
+
+  
+
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL as string, 
-    prepareHeaders: (headers) => {
-      headers.set('ngrok-skip-browser-warning', 'true');
+    prepareHeaders: (headers,{getState}) => {
+      // headers.set('ngrok-skip-browser-warning', 'true');
+      const state = getState() as { auth: { token: string | null } };
+      const token = state.auth.token;
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
       return headers;
     }
   }),
   endpoints: (builder) => ({
     logIn: builder.mutation<loginPostResponse, loginPostRequest>({
       query: (credentials) => ({
-        url: 'api/auth/login',
+        url: '/api/auth/login',
         method: 'POST',
         body: credentials,
       }),
@@ -82,12 +104,27 @@ export const apiSlice = createApi({
         method: 'POST',
       }),
     }),
-  }),
-});
+    //once we have registered these are the apis for the merchant
+    //this one is the wallet balance
+    getWalletBalance: builder.query<walletGetResponse,void>({
+      query: () => 'api/wallet'
+      }),
+    createPaymentRequest: builder.mutation<void,paymentPostRequest>({
+      query: (paymentRequestData)=>({
+        url: 'api/payments/request',
+        method: 'POST',
+        body: paymentRequestData
+      })
+    })
+    }),
+  });
+// });
 
 export const {
   useLogInMutation,
   useRegisterCustomerMutation,
   useRegisterMerchantMutation,
   useRefreshMutation,
+  useGetWalletBalanceQuery,
+  useCreatePaymentRequestMutation,
 } = apiSlice;

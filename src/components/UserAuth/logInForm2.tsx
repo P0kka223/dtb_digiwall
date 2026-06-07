@@ -1,16 +1,16 @@
 import { Formik,Form, type FormikHelpers,} from 'formik';
-import { loginSchema } from '../schemas/schema';
-import { useLogInMutation, type loginPostRequest } from '../features/api/api';
-import CustomInput from './elements/customInput';
+import { loginSchema } from '../../schemas/schema';
+import { useLogInMutation, type loginPostRequest } from '../../features/api/api';
+import CustomInput from '../elements/customInput';
 import { useDispatch } from 'react-redux';
-import { logInSuccess } from '../state/reducers/authSlice';
+import { logInSuccess } from '../../state/reducers/authSlice';
 import { jwtDecode } from "jwt-decode";
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
+
 
 
 
@@ -31,11 +31,9 @@ interface MyJwtPayload {
 
   const onSubmit = async (values: loginPostRequest, actions: FormikHelpers<loginPostRequest>) => {
     
-    
-    
     try {
       //DUMMY LOGIN
-      if (values.email === 'stephe223@gmail.com' && values.password === 'Stephen123!') {
+      if (values.email === 'stephen223@gmail.com' && values.password === 'Stephen123!') {
         console.log('Dummy login successful. Dispatching to Redux...');
         
         const dummyDispatchMsg=dispatch(logInSuccess({token:"yougetincongrats",user:"Steve"}));
@@ -58,7 +56,13 @@ interface MyJwtPayload {
    catch (err) {
     // The error is already caught/logged by the service layer.
     // We catch it here just to prevent the app from crashing.
-    console.error('UI caught login failure');
+    console.error('UI caught login failure', err);
+  
+    // Extract the specific error message from your backend (adjust path as needed)
+    const errorMessage = err?.data?.message || 'Invalid email or password';
+    
+    // Tell Formik about the error
+    actions.setStatus(errorMessage);
     
   } finally {
     // Always tell Formik we are done so it doesn't stay stuck loading

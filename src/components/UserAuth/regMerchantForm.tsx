@@ -1,9 +1,9 @@
 import { Form,useFormik,FormikProvider} from 'formik';
-import { regMerchantSchema } from '../schemas/schema';
-import { useRegisterMerchantMutation, type registerMerchantPostRequest } from '../features/api/api';
-import CustomInput from './elements/customInput';
-import CustomCheckBox from './elements/customCheckBox';
-import CustomSelect from './elements/customSelect';
+import { regMerchantSchema } from '../../schemas/schema';
+import { useRegisterMerchantMutation, type registerMerchantPostRequest } from '../../features/api/api';
+import CustomInput from '../elements/customInput';
+import CustomCheckBox from '../elements/customCheckBox';
+import CustomSelect from '../elements/customSelect';
 import {Card,CardContent,Button,Typography} from '@mui/material';
 
     const RegMerchantForm: React.FC = () => {

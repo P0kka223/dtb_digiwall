@@ -1,9 +1,9 @@
 import { Form, useFormik, FormikProvider} from 'formik';
-import { regCustSchema } from '../schemas/schema';
-import type { registerCustomerPostRequest } from '../features/api/api';
-import CustomInput from './elements/customInput';
-import CustomCheckBox from './elements/customCheckBox';
-import { useRegisterCustomerMutation } from '../features/api/api';
+import { regCustSchema } from '../../schemas/schema';
+import type { registerCustomerPostRequest } from '../../features/api/api';
+import CustomInput from '../elements/customInput';
+import CustomCheckBox from '../elements/customCheckBox';
+import { useRegisterCustomerMutation } from '../../features/api/api';
 import {Card,CardContent,Button,Typography} from '@mui/material';
 
 
@@ -31,7 +31,13 @@ import {Card,CardContent,Button,Typography} from '@mui/material';
       }})
       
   return (
-    <Card variant="outlined" sx={{maxWidth:400}}>
+    <Card variant="outlined" sx={{maxWidth: 400,
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '100%' // Ensures it doesn't shrink too much on small screens
+    }}>
     <CardContent>
         <Typography>Customer Details</Typography>
         <FormikProvider value={formik} >
