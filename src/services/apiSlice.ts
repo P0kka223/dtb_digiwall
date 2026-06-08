@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface Transaction {
   id: number;
-  merchant_name: string;
-  date: string;
+  description: string;
+  createdAt: string;
   amount: number;
   status: string;
 }
@@ -20,10 +20,16 @@ interface PaymentRequest {
 
 interface wallet{
   id: string;
-  availablebalance: number;
-  pendingbalance: number;
+  availableBalance: number;
+  pendingBalance: number;
 }
 
+interface pendingPayment{
+  merchantEmail: string;
+  description: string;
+  amount: string;
+ 
+}
 export const api = createApi({
   reducerPath: "api", //label for my api in my redux store
   baseQuery: fetchBaseQuery({ 
@@ -49,7 +55,7 @@ export const api = createApi({
       query: () => "/api/payments/customer",//query returns to the endpoint
     }),
 
-    getWallet: builder.query<wallet[], void>({
+    getWallet: builder.query<wallet, void>({
   query:()=>"/api/wallet"
   
 }),
@@ -60,6 +66,11 @@ export const api = createApi({
       providesTags: ["PaymentRequests"],//providerTags labels the data as PaymentRequests
     }),
 
+    //pending-payments
+getPaymentPending: builder.query<pendingPayment[], void>({
+query: () =>"/api/payments/pending",
+
+}),
     // Approve a request
     approveRequest: builder.mutation<void, number>({//mutation is used to for post since we are sending the data to the database
       query: (id) => ({
@@ -88,5 +99,6 @@ export const {
   useGetPaymentRequestsQuery,
   useApproveRequestMutation,
   useRejectRequestMutation,
+  useGetPaymentPendingQuery
 } = api;
 

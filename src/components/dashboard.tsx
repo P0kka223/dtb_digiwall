@@ -1,25 +1,24 @@
 import { useState } from "react";
 import { useGetTransactionsQuery } from "../services/apiSlice";
 import { useGetWalletQuery } from "../services/apiSlice";
+import { Link } from "react-router-dom";
 
 const Userdashboard: React.FC = ()=>{
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const navItems = [
-        {name: "Dashboard", icon: "="},
-        {name: "Wallet", icon: "="},
-        {name: "Transactions", icon: "="},
-        {name: "Pending payments", icon: "="},
+        {name: "Dashboard", icon: "=", path: ""},
+        {name: "Wallet", icon: "=", path:""},
+        {name: "Transactions", icon: "=", path: ""},
+        {name: "Pending payments", icon: "=", path: "/paymentRequest"},
      ]
     
-     const { data: transactions=[], isLoading: transactionLoading, isError: transactionError } = useGetTransactionsQuery(); //made the transactions set to empty 
-     const { data: wallet, isLoading: walletLoading, isError:walletError } = useGetWalletQuery();
+     const { data: transactions=[]} = useGetTransactionsQuery(); //made the transactions set to empty 
+     const { data: wallet} = useGetWalletQuery();
 
 
 
 
 
-if (transactionLoading || walletLoading) return <p>Loading...</p>;
-if (transactionError || walletError) return <p>Failed to load.</p>;
     return(
        <div className = "bg-gray-100 h-screen">
         {/*sidebar */}
@@ -31,49 +30,59 @@ if (transactionError || walletError) return <p>Failed to load.</p>;
             </div>
             {/*navigation bar*/}
             <div className="p-4 space-y-2">
-                {navItems.map(item =>{
-                    return(
-                        <div>
-                            <div>{item.name}</div>
-                            <div>{item.icon}</div>
-                        </div>
-                    )
-                })}
-            </div>
+                {navItems.map(item => (
+            <Link
+              key={item.name}
+              to={item.path}
+              onClick={() => setSidebarOpen(false)}
+              className="flex justify-between p-2 rounded hover:bg-gray-100"
+            >
+              <span>{item.name}</span>
+              <span>{item.icon}</span>
+            </Link>
+          ))}
+        </div>
         </div>
         {/*Main content*/}
-        <div>
-             <h3>Recent Transactions (Last 5)</h3>
-      {transactions.map((tx) => (
-        <div key={tx.id} className="transaction-card">
-          <div>
-            <p>{tx.merchant_name}</p>
-            <span>{tx.date}</span>
-          </div>
-          <div>
-            <p>KES {tx.amount.toLocaleString()}</p>
-            <span>{tx.status}</span>
-          </div>
-        </div>
-      ))}
-        </div>
+        
+        
 <main className="flex-1">
-    <header className = "bg-blue-100 flex justify-between p-4">
+    <header className = "bg-blue-600 flex justify-between p-4">
         <button className="p-2 text-xl font-bold lg:hidden" onClick={()=> setSidebarOpen(true)}>=</button>
-        <h1>Dashboard</h1>
+        <h1 className="text-xl">Dashboard</h1>
         <div className="bg-gray-300 w-10 h-10 rounded-full"></div>
     </header>
         <div className="p-4 flex bg-gray-100 text-xl border border-gray-500">
             <h2>Account Balance:</h2>
+          <p>{wallet?.availableBalance?.toLocaleString()}</p> 
     </div>
+    <div>
     <div className="p-4 flex justify-center text-xl  border-b">
        <h2>Transaction history(Last 5 transactions)</h2>
- <div>
-    {transactionLoading ? <p>Loading...</p> : <h2>Transaction history</h2>}
-  </div>
+         </div>
+        
+             {transactions.map((tx) => (
+        <div key={tx.id} className="transaction-card flex justify-center p-4 shadow text-xl">
+          <div>
+           
+            <span>{new Date(tx.createdAt).toLocaleDateString("en-KE", {
+  day: "numeric",
+  month: "short",
+  year: "numeric"
+})}</span>
+          </div>
+          <div>
+            <span>KES {tx.amount.toLocaleString()}</span>
+            <span>{tx.status}</span>
+            
+          </div>
+        </div>
+      ))}
     </div>
-</main>
-       </div> 
+        </main>
+ </div> 
+
+      
     )
 }
  

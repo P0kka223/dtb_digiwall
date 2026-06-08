@@ -93,11 +93,11 @@ onSubmit: async(values)=> {
 
     return(
         <>
-        <div className="flex justify-center items-center p-4 space-y-4 shadow-md">
+        <div className="flex justify-center items-center p-4 space-y-4 shadow-md ">
         
         <div>
-            <form className="bg-red-300 rounded space-y-4 p-12" onSubmit = {formik.handleSubmit}>
-              <h1 className="flex justify-center">Register Form</h1>
+            <form className=" rounded-lg space-y-4 p-12 shadow" onSubmit = {formik.handleSubmit}>
+              <h1 className="flex justify-center text-lg bg-blue-600 hover:bg-blue-700 rounded-lg w-full">Register Form</h1>
                 <div>
 
                 <label htmlFor="fullname">First Name: </label>
@@ -128,7 +128,7 @@ onSubmit: async(values)=> {
                 type="text"
                 id="pnumber"
                 name="pnumber"
-                placeholder="Enter your phone number"
+                placeholder="phone number"
                 value={formik.values.pnumber} 
               onChange={formik.handleChange}/>
               
@@ -140,7 +140,7 @@ onSubmit: async(values)=> {
                 type="number"
                 id="idnumber"
                 name="idnumber"
-                placeholder="Enter your ID number"
+                placeholder="ID number"
                 value={formik.values.idnumber}
               onChange={formik.handleChange}/>
                <p style={{ color: "red" }}>{formik.errors.idnumber}</p>
@@ -151,21 +151,22 @@ onSubmit: async(values)=> {
                 type="password"
                 id="password"
                 name="password"
-                placeholder="Enter your Password number"
+                placeholder="Enter your Password"
                 value={formik.values.password}
                 onChange={formik.handleChange}/>
                 <p style={{ color: "red" }}>{formik.errors.password}</p>
-                  <div>
+                </div>
+                <div>
               <label htmlFor="confrimpassword">Confirm your password: </label>
                 <input
                 type="password"
                 id="confirmpassword"
                 name="confirmpassword"
-                placeholder="Confirm your Password number"
+                placeholder="Confirm your Password"
                 value={formik.values.confirmpassword}
                 onChange={formik.handleChange}/>
                 <p style={{ color: "red" }}>{formik.errors.confirmpassword}</p>
-                </div>
+                
                 </div>
                 <label htmlFor="KRA">KRA: </label>
                 <input
@@ -199,7 +200,7 @@ onSubmit: async(values)=> {
                     />
                     <label htmlFor="terms"> I accept the terms and conditions</label>
                 </div>
-                <button type="submit">Sign Up</button>
+                <button type="submit" className="bg-blue-600 flex justify-center w-full text-lg hover:bg-blue-700 rounded-lg">Sign Up</button>
             </form>
         </div>
         </div>
