@@ -15,8 +15,7 @@ return(
       <Routes>
         <Route path="/" element={<SignInForm onLoginSuccess={() => {}} />} />
         <Route path="/register" element={<Registerform/>} />
-        <Route
-          path="/dashboard"
+        <Route path="/dashboard"
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
         />
         <Route path="/paymentRequest" element={<PaymentRequest/>}></Route>

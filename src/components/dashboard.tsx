@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useGetTransactionsQuery } from "../services/apiSlice";
 import { useGetWalletQuery } from "../services/apiSlice";
 import { Link } from "react-router-dom";
+import { Home, Wallet, Clock, AlertCircle } from "lucide-react";
+import clsx from "clsx"
 
 const Userdashboard: React.FC = ()=>{
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const navItems = [
-        {name: "Dashboard", icon: "=", path: ""},
+        {name: "Dashboard", icon: <Home size={20}/>, path: "/dashboard"},
         {name: "Wallet", icon: "=", path:""},
         {name: "Transactions", icon: "=", path: ""},
         {name: "Pending payments", icon: "=", path: "/paymentRequest"},
@@ -17,25 +19,24 @@ const Userdashboard: React.FC = ()=>{
 
 
 
-
+ 
 
     return(
-       <div className = "bg-gray-100 h-screen">
+       <div className = "relative bg-gray-100 h-screen overflow-hidden">
         {/*sidebar */}
-        <div className={`fixed bg-white w-64 h-screen shadow -translate-x-64 ${sidebarOpen?"translate-x-0":"-translate-x-64"} 
-        `}>
-            <div className="p-4 flex justify-between border-b">
-                <div className="text-xl font bold">Logo</div>
+        <div className={clsx("fixed bg-white/30 h-screen w-64 transition-transform backdrop-blur-md", sidebarOpen? "translate-x-0": "-translate-x-64 ")}>
+            <div className="p-4 flex justify-between border-r border-white/20">
+                <div className="text-xl font bold ">Logo</div>
                 <button onClick={()=>setSidebarOpen(false)}>X</button>
             </div>
             {/*navigation bar*/}
-            <div className="p-4 space-y-2">
+            <div className="p-4 space-y-2 ">
                 {navItems.map(item => (
             <Link
               key={item.name}
               to={item.path}
               onClick={() => setSidebarOpen(false)}
-              className="flex justify-between p-2 rounded hover:bg-gray-100"
+              className="flex justify-between p-2 rounded hover:bg-blue-600"
             >
               <span>{item.name}</span>
               <span>{item.icon}</span>
@@ -46,10 +47,10 @@ const Userdashboard: React.FC = ()=>{
         {/*Main content*/}
         
         
-<main className="flex-1">
+<main className={clsx("transition-all duration-300", sidebarOpen?"ml-64":"ml-0" )}>
     <header className = "bg-blue-600 flex justify-between p-4">
         <button className="p-2 text-xl font-bold lg:hidden" onClick={()=> setSidebarOpen(true)}>=</button>
-        <h1 className="text-xl">Dashboard</h1>
+        <h1 className="text-xl ">Dashboard</h1>
         <div className="bg-gray-300 w-10 h-10 rounded-full"></div>
     </header>
         <div className="p-4 flex bg-gray-100 text-xl border border-gray-500">

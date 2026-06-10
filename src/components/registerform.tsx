@@ -93,7 +93,7 @@ onSubmit: async(values)=> {
 
     return(
         <>
-        <div className="flex justify-center items-center p-4 space-y-4 shadow-md ">
+        <div className="flex justify-center items-center p-4 space-y-4 shadow-2xl border border-gray-600">
         
         <div>
             <form className=" rounded-lg space-y-4 p-12 shadow" onSubmit = {formik.handleSubmit}>

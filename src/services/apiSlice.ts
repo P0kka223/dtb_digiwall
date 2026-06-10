@@ -25,10 +25,19 @@ interface wallet{
 }
 
 interface pendingPayment{
+   id: number;
   merchantEmail: string;
+  customerEmail: string;
   description: string;
-  amount: string;
- 
+  date: string;
+  amount: number;
+  status: string;
+}
+interface approve{
+  id:string;
+}
+interface reject{
+  id:string;
 }
 export const api = createApi({
   reducerPath: "api", //label for my api in my redux store
@@ -72,19 +81,19 @@ query: () =>"/api/payments/pending",
 
 }),
     // Approve a request
-    approveRequest: builder.mutation<void, number>({//mutation is used to for post since we are sending the data to the database
-      query: (id) => ({
-        url: `api/payment/request`,
-        method: "PUT",
+    approveRequest: builder.mutation<void, approve>({//mutation is used to for post since we are sending the data to the database
+      query: ({id}) => ({
+        url: `/api/payments/${id}/approve`,
+             method: "POST",
       }),
       invalidatesTags: ["PaymentRequests"], // auto re-fetches list after action
     }),
 
     // Reject a request
-    rejectRequest: builder.mutation({
-      query: (id) => ({
-        url: `api/payment/request`,
-        method: "PUT",
+    rejectRequest: builder.mutation<void, reject>({
+      query: ({id}) => ({
+        url: `/api/payments/${id}/reject`,
+      method: "POST",
       }),
       invalidatesTags: ["PaymentRequests"], // auto re-fetches list after action
     }),
@@ -99,6 +108,8 @@ export const {
   useGetPaymentRequestsQuery,
   useApproveRequestMutation,
   useRejectRequestMutation,
-  useGetPaymentPendingQuery
+  useGetPaymentPendingQuery,
+
+
 } = api;
 
