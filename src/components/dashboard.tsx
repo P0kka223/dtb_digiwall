@@ -10,7 +10,7 @@ const Userdashboard: React.FC = ()=>{
     const navItems = [
         {name: "Dashboard", icon: <Home size={20}/>, path: "/dashboard"},
         {name: "Wallet", icon: "=", path:""},
-        {name: "Transactions", icon: "=", path: ""},
+        {name: "Transactions", icon: "=", path: "/transactions"},
         {name: "Pending payments", icon: "=", path: "/paymentRequest"},
      ]
     
@@ -62,7 +62,7 @@ const Userdashboard: React.FC = ()=>{
        <h2>Transaction history(Last 5 transactions)</h2>
          </div>
         
-             {transactions.map((tx) => (
+             {transactions.slice(-5).reverse().map((tx) => (
         <div key={tx.id} className="transaction-card flex justify-center p-4 shadow text-xl">
           <div>
            

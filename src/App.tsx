@@ -7,6 +7,7 @@ import Registerform from './components/registerform.tsx';
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PaymentRequest from './components/paymentrequest.tsx';
+import Transaction from './components/transactions.tsx';
 
 const App: React.FC = () => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -19,6 +20,7 @@ return(
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
         />
         <Route path="/paymentRequest" element={<PaymentRequest/>}></Route>
+        <Route path="/transactions" element={<Transaction/>}></Route>
       </Routes>
     </BrowserRouter>
   );
